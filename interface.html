@@ -1,0 +1,222 @@
+<html>
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>xdParser v1.1</title>
+  <link href="css/bootstrap.css" rel="stylesheet" />
+  <link href="css/main.css" rel="stylesheet" />
+  <script type="text/javascript" src="/js/jQuery.js"></script>
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+  <!-- <script type="text/javascript" src="/js/main.js"></script> -->
+  <script type="text/javascript" src="/js/betsSelector.js"></script>
+</head>
+
+<body>
+  <!-- NavBar-------------->
+  <nav class="navbar navbar-expand-sm navbar-dark navbar-custom">
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+      <!-- Links -->
+      <ul class="navbar-nav mr-auto">
+        <!-- <li class="nav-item">
+          <a class="navbar-brand" href="#">
+            <img src="image/32x32.png" alt="Logo">
+          </a>
+        </li> -->
+        <li class="nav-item">
+          <a class="navbar-brand" href="#">
+            <img src="image/logo.png" alt="Logo">
+            <font font-weight="lighter">Money Button</font>
+          </a>
+        </li>
+        <!--<li class="nav-item">
+          <a href="https://vk.com/proskaterbdp"><h5><font color="white">Техподдержка</font></h5></a>
+        </li>-->
+        <!--<li class="nav-item">
+        <a class="nav-link" href="#">Link 2</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link 3</a>
+      </li> -->
+      </ul>
+      <input id="refresh" button class="btn btn-outline-success my-2 my-sm-0" value="Обновить">
+      <form class="form-inline my-2 my-lg-0">
+        <div class="container-custom">
+          <span class="navbar-text">
+            <font color="white">Осталось прогнозов:</font>
+          </span>
+        </div>
+        <!--<input id="BuyPredicts" button class="btn btn-outline-success my-2 my-sm-0" type="button" value="Пополнить счет" /> -->
+        <form class="form-inline my-2 my-lg-0">
+          <input type="number" class="number-custom" min="1" max="500" step="1">
+          <input id="BuyPredicts" type="submit" class="btn btn-outline-success my-2 my-sm-0" value="Купить прогнозы">
+        </form>
+        <input id="SteamAuth" button class="btn btn-outline-success my-2 my-sm-0" type="button" value="Войти" />
+      </form>
+    </div>
+  </nav>
+
+  <!-- Контент в главном контейнере, содержит вкладки с информацией: "Главная", "Как это работает", "Отззывы", "FAQ" -->
+  <div class="container" style="background: white;">
+    <div class="row">
+      <div class="col-sm-8">
+        <input id="defaultOpen" class="tablink" type="button" value="Главная">
+        <input id="tabLink2" class="tablink" type="button" value="Как это работает">
+        <input id="tabLink3" class="tablink" type="button" value="Отзывы">
+        <input id="tabLink4" class="tablink" type="button" value="FAQ">
+
+        <div id="Home" class="tabcontent">
+          <h3>Money Button</h3>
+          <div class="row">
+            <div class="col">
+              <div class="container-custom-grid">
+                <img src="image/faq-easy.svg">
+                <p>
+                  <div class="navbar-text-custom">
+                    <h3>Просто</h3>
+                    <p>Вам не нужно делать практически ничего, чтобы зарабатывать деньги</p>
+                  </div>
+                </p>
+              </div>
+            </div>
+            <div class="col">
+              <div class="container-custom-grid">
+                <img src="image/faq-safe.svg">
+                <p>
+                  <div class="navbar-text-custom">
+                    <h3>Безопасно</h3>
+                    <p>Мы не имеем доступа к вашему счету на сайтах для ставок, а вся информация о пользователе используется исключительно для расчета ставок</p>
+                  </div>
+                </p>
+              </div>
+            </div>
+            <div class="col">
+              <div class="container-custom-grid">
+                <img src="image/faq-comfortable.svg">
+                <p>
+                  <div class="navbar-text-custom">
+                    <h3>Удобно</h3>
+                    <p>Мы постоянно улучшаем сервис по вашим просьбам, а на любые вопросы ответит техподдержка</p>
+                  </div>
+                </p>
+              </div>
+            </div>
+          </div>
+          <hr class="featurette-divider">
+          <div class="row">
+            <div class="col-md-7">
+              <div class="navbar-text-custom-home">
+                <h1>Реально ли зарабатывать на ставках?</h1>
+                <p>Заработок на спортивных ставках сопоставим с категорией высокорискованных инвестиций, но прибыль может быть в разы больше, чем, к примеру, от обычного депозита в банке. Разумеется, присутствуют и риски, но это неотъемлемая часть
+                  любых финансовых операций.</p>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <img src="image/home-main.png">
+            </div>
+          </div>
+          <hr class="featurette-divider">
+          <div class="row">
+            <div class="col-md-5">
+              <img src="image/home-main2.png">
+            </div>
+            <div class="col-md-7">
+              <div class="navbar-text-custom-home2">
+                <h1>Что делает это приложение?</h1>
+                <p>Мы предлагаем вам инстумент, который способен самостоятельно анализировать ближайшие события в дисциплине CS:GO, ставить на предсказанные исходы, правильно распоряжаясь вашим банком.</p>
+              </div>
+            </div>
+          </div>
+          <hr class="featurette-divider">
+        </div>
+
+        <div id="News" class="tabcontent">
+          <div class="container-custom-with-bar">
+            <h3>News</h3>
+            <p>Some news this fine day!</p>
+          </div>
+        </div>
+
+        <div id="Contact" class="tabcontent">
+          <div class="container-custom-with-bar">
+            <h3>Contact</h3>
+            <p>Get in touch, or swing by for a cup of coffee.</p>
+          </div>
+        </div>
+
+        <div id="About" class="tabcontent">
+          <div class="container-custom-with-bar">
+            <h3>About</h3>
+            <div class="demo">
+              <input class="hide" id="hd-1" type="checkbox">
+              <label for="hd-1">Инструкция</label>
+              <div>
+                HTML — стандартный язык разметки документов во Всемирной паутине. Большинство веб-страниц содержат описание разметки на языке HTML (или XHTML). Язык HTML интерпретируется браузерами и отображается в виде документа в удобной для
+                человека
+                форме..
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--<p><input id="SteamAuth" type="button" value="Войти" /> -->
+        <!--<p><input id="startBetsCSGO" type="button" value="Запустить Бота на сайте betscsgo" /> -->
+      </div>
+
+      <!-- Панель управления ботом -->
+      <div class="col-sm-4">
+        <div class="container-custom-logs container-fluid">
+          <h3>Панель управления ботом</h3>
+          <div class="slidecontainer">
+            <input type="range" step="0.1" min="0.1" max="10" value="3" class="slider" id="Multiplicator">
+          </div>
+          <span>Значение мультипликатора ставок:</span>
+          <span id="Multiplicator-view" style="font-weight:bold;color:red">15</span>
+          <p>
+            <div class="dropdown">
+              <input id="DropDown" type="button" class="dropbtn" value="Выбрать сервис для ставок" />
+              <div id="myDropdown" class="dropdown-content">
+                <a value="betscsgo">betscsgo.gg</a>
+                <a value="csgopozitive">csgopozitive</a>
+                <a value="LootBet">LootBet</a>
+              </div>
+            </div>
+          </p>
+          <span>Выбранный сервис для ставок:</span>
+          <span id="Bet-service-view" style="font-weight:bold;color:red">betscsgo.gg</span>
+          <p><button id="startBetsCSGO" class="btn success">Запустить бота</button>
+        </div>
+
+        <!-- Окно с логами -->
+        <div class="container-custom-logs container-fluid">
+          <h3>Логи</h3>
+          <div class="prokrutka" id="logs">Вас приветствует бот для ставок CS:GO. Войдите в систему, чтобы я смог работать. Пожалуйста, во время работы бота не обращайте внимания на подвисания. Мы намеренно отключили асинхронность из-за особенностей работы алгоритма. Возможно в будующем эта проблема будет решена</div>
+        </div>
+        <!--Конец контейнера -->
+      </div>
+    </div>
+  </div>
+
+
+  <!--<p><input id="startBetsCSGO" type="button" value="Запустить Бота на сайте betscsgo" />
+  <p><input id="startPozitive" type="button" value="Запустить Бота на сайте csgopozitive" />
+  <p><input id="startLootBet" type="button" value="Запустить Бота на сайте LootBet" /> -->
+  <!--<form>
+  <div>
+  	<p><input type="radio" id="betscsgo" checked="checked" value="betscsgo" name="betsselector">
+  		<label for="betscsgo">betscsgo.net</label>
+    <details>Покажи, что у тебя есть!</details>
+  	<p><input type="radio" id="parimatch" value="parimatch" name="betsselector">
+  		<label for="parimatch.ru">parimatch.ru</label>
+  	<p><input type="radio" id="csgopositive.com" value="csgopositive" name="betsselector">
+  		<label for="csgopositive.com">csgopositive.com</label>
+    <p><input id="chooseBetService" type="submit" value="Выбрать">
+  </div>
+</form> -->
+  <footer>
+    <p>Copyright Немытов Андрей
+  </footer>
+</body>
+
+</html>
