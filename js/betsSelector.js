@@ -642,7 +642,7 @@
       document.getElementById("logs").innerHTML += "<p>Начинаем работу с сервисом betsCSGO."
       console.log(currentDate);
       $.ajax({
-        url: 'https://betscsgo.com/',
+        url: 'https://betscsgo.gg/',
         dataType: 'text'
       }).done(function(data) {
         document.getElementById("logs").innerHTML += "<p>Сайт успешно загружен. Получаем список игр (Снизу самые ближайшие). Время: " + logsDate;
