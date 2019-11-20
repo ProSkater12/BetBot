@@ -176,31 +176,65 @@
           </div>
           <span>Значение мультипликатора ставок:</span>
           <span id="Multiplicator-view" style="font-weight:bold;color:red">15</span>
+          <div class="slidecontainer">
+            <input type="range" step="0.5" min="1" max="100" value="20" class="slider" id="MaxBet">
+          </div>
+          <span>Максимальная ставка:</span>
+          <span id="MaxBet-view" style="font-weight:bold;color:red">20 % от банка</span>
           <p>
-            <div class="dropdown">
+            <!--<div class="dropdown">
               <input id="DropDown" type="button" class="dropbtn" value="Выбрать сервис для ставок" />
               <div id="myDropdown" class="dropdown-content">
                 <a value="betscsgo">betscsgo.gg</a>
                 <a value="csgopozitive">csgopozitive</a>
                 <a value="LootBet">LootBet</a>
               </div>
+            </div>-->
+            <div class="row">
+              <div class="col-auto">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                  <label class="form-check-label" for="exampleRadios1">
+                    betsCSGO
+                  </label>
+                </div>
+              </div>
+              <div class="col-auto">
+                <input type="text" class="form-control" id="betscsgoDomen" placeholder="Ваш собственный домен">
+              </div>
+              <div class="col-auto">
+                <input type="button" id="submitMaxBet" value="Сохранить" class="btn success">
+              </div>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+              <label class="form-check-label" for="exampleRadios1">
+                parimatch
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+              <label class="form-check-label" for="exampleRadios1">
+                LootBet
+              </label>
             </div>
           </p>
-          <span>Выбранный сервис для ставок:</span>
-          <span id="Bet-service-view" style="font-weight:bold;color:red">betscsgo.gg</span>
+
+          <!--<span>Выбранный сервис для ставок:</span>
+          <span id="Bet-service-view" style="font-weight:bold;color:red">betscsgo.gg</span> -->
           <p><button id="startBetsCSGO" class="btn success">Запустить бота</button>
         </div>
 
         <!-- Окно с логами -->
         <div class="container-custom-logs container-fluid">
           <h3>Логи</h3>
-          <div class="prokrutka" id="logs">Вас приветствует бот для ставок CS:GO. Войдите в систему, чтобы я смог работать. Пожалуйста, во время работы бота не обращайте внимания на подвисания. Мы намеренно отключили асинхронность из-за особенностей работы алгоритма. Возможно в будующем эта проблема будет решена</div>
+          <div class="prokrutka" id="logs">Вас приветствует бот для ставок CS:GO. Войдите в систему, чтобы я смог работать. Пожалуйста, во время работы бота не обращайте внимания на подвисания. Мы намеренно отключили асинхронность из-за особенностей
+            работы алгоритма. Возможно в будующем эта проблема будет решена</div>
         </div>
         <!--Конец контейнера -->
       </div>
     </div>
   </div>
-
 
   <!--<p><input id="startBetsCSGO" type="button" value="Запустить Бота на сайте betscsgo" />
   <p><input id="startPozitive" type="button" value="Запустить Бота на сайте csgopozitive" />
@@ -219,8 +253,8 @@
 </form> -->
   <footer>
     <p>Copyright Немытов Андрей
-    <div id="qunit"></div>
-    <div id="qunit-fixture"></div>
+      <div id="qunit"></div>
+      <div id="qunit-fixture"></div>
   </footer>
 </body>
 

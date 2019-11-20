@@ -5,6 +5,8 @@
   var logsDate = new Date();
   var hotfixMatchID = 0;
   var maps = ["Cache", "Dust 2", "Mirage", "Inferno", "Nuke", "Train", "Overpass"];
+  var betscsgoLink = 'https://betscsgo.co/';
+  var maxBet = 20;
 
   function ajaxStart() {
     $('#progress').show();
@@ -18,7 +20,7 @@
   //между командами (против друг друга)
   function HeadToHead(data) {
     var WinsAndLoses = [0, 0, 0]; //массив содержащий победы, ничьи и поражения
-    var j = 0;
+    let j = 0;
     var finalValue = 0;
     //Загружаем по ссылке страницу и заносим в каждый элемент
     //массива победы, ничьи и поражения 1 команды над 2
@@ -94,8 +96,8 @@
     var saveNum = 0;
     var saveName = 0;
 
-    for (var j = 0; j < 7; j++) {
-      for (var i = 0; i < (7 - j); i++) {
+    for (let j = 0; j < 7; j++) {
+      for (let i = 0; i < (7 - j); i++) {
         if (mapsArray[i + j] > biggestNum) {
           biggestNum = mapsArray[i + j];
           biggestInd = i + j;
@@ -204,7 +206,7 @@
         /*В зависимости от кол-ва карт решаем что делать*/
         switch (BestOfNum) {
           case 1:
-            for (var i = 0; i < mapsLength; i++) {
+            for (let i = 0; i < mapsLength; i++) {
               if (Math.abs(minDifference[i]) < Math.abs(lowestValue)) {
                 lowestValue = minDifference[i];
                 lowestInd = i;
@@ -217,7 +219,7 @@
             break;
 
           case 2:
-            for (var i = 0; i < mapsLength; i++) {
+            for (let i = 0; i < mapsLength; i++) {
               if (Math.abs(minDifference[i]) < Math.abs(lowestValue)) {
                 lowestValue = minDifference[i];
                 lowestInd = i;
@@ -237,7 +239,7 @@
             return (Math.round(finalValue * 100) * 0.01);
             break;
           case 3:
-            for (var i = 0; i < mapsLength; i++) {
+            for (let i = 0; i < mapsLength; i++) {
               if (Math.abs(minDifference[i]) < Math.abs(lowestValue)) {
                 lowestValue = minDifference[i];
                 lowestInd = i;
@@ -264,7 +266,7 @@
             minDifference[0] = 0;
             minDifference[6] = 0;
             document.getElementById("logs").innerHTML += "<p>Пытаемся угадать выпавшие карты. Все кроме " + maps[0] + " и " + maps[6];
-            for (var i = 0; i < mapsLength; i++) {
+            for (let i = 0; i < mapsLength; i++) {
               lowestValue += minDifference[i];
             }
             /*пик карты в лог*/
@@ -288,8 +290,8 @@
   }
 
   function PastMatchesAnalize(data, number) {
-    var commandHTML = ''; //HTML матча с командой
-    var commandURL = 'https://www.hltv.org'; //ссылка на команду
+    let commandHTML = ''; //HTML матча с командой
+    let commandURL = 'https://www.hltv.org'; //ссылка на команду
 
     commandHTML = $(data).find('.opponent')[number].innerHTML;
     commandURL += $(commandHTML).find('a').attr('href');
@@ -323,7 +325,7 @@
     }
   }
 
-  function CalculateRating(rating, string) {
+ function CalculateRating(rating, string) {
     var scoreString = string + ' I ';
     var regWin = /\d+(?=\ - )/; //регулярное выражение: находит число, если перед ним есть " - "
     var regLose = /\d+(?=\ I )/; //регулярное выражение: находит число, если перед ним нет " - "
@@ -371,7 +373,7 @@
 
   function reqReadyStateChange(checkID) {
     if (request.readyState == 4) {
-      var status = request.status;
+      let status = request.status;
       if (status == 200) {
         //document.getElementById("output").innerHTML=request.responseText;
         //$('#resultbox').html(request.responseText);
@@ -642,7 +644,7 @@
       document.getElementById("logs").innerHTML += "<p>Начинаем работу с сервисом betsCSGO."
       console.log(currentDate);
       $.ajax({
-        url: 'https://betscsgo.gg/',
+        url: 'https://betscsgo.co/',
         dataType: 'text'
       }).done(function(data) {
         document.getElementById("logs").innerHTML += "<p>Сайт успешно загружен. Получаем список игр (Снизу самые ближайшие). Время: " + logsDate;
@@ -797,6 +799,23 @@
     }
   }
 
+/*Функция для отправки запроса на наш сервер. Создаем запись */
+  function addMatchLine(service, matchID, money, firstTeamName, secondTeamName){
+    let request_body = "service=" + service + "&matchID=" + matchID + "&money=" + money + "&names=" + firstTeamName + "vs" + secondTeamName + "&token=" + window.ownSessionToken;
+    request.open("GET", "http://money-button.ru.com/addMatchLine.php?" + request_body, true);
+    request.send();
+    request.onreadystatechange = reqReadyStateChangeMatchLine();
+  }
+
+  function reqReadyStateChangeMatchLine(){
+    if (request.readyState == 4) {
+      let status = request.status;
+      if (status == 200) {
+        console.log(request.responseText);
+      }
+    }
+  }
+
   /*function ChooseParimatch(){
   	alert('Wow it s parimatch');}*/
 
@@ -901,6 +920,16 @@ toggle between hiding and showing the dropdown content */
       output.innerHTML = this.value;
     }
 
+    /*---------------Слайдер для максимальной ставки-----------------*/
+    var maxBetSlider = document.getElementById("MaxBet");
+    var maxBetOutput = document.getElementById("MaxBet-view");
+    maxBetOutput.innerHTML = maxBetSlider.value + " % от банка";
+    window.maxBet = maxBetSlider.value;
+
+    maxBetSlider.oninput = function() {
+      maxBetOutput.innerHTML = this.value + " % от банка";
+    }
+
     // Close the dropdown menu if the user clicks outside of it
     window.onclick = function(event) {
       if (!event.target.matches('.dropbtn')) {
@@ -916,18 +945,23 @@ toggle between hiding and showing the dropdown content */
     }
 
     /*----------Выпадающий список сервисов для ставок------------*/
-    var drop_down = document.getElementById("myDropdown");
+    /*var drop_down = document.getElementById("myDropdown");
     var output_dropdown = document.getElementById("Bet-service-view");
+    output_dropdown.innerHTML = drop_down.value;
+    window.myDropdown = drop_down.value;
 
     drop_down.oninput = function() {
       output_dropdown.innerHTML = this.value;
-    }
+    }*/
     /*var betsCSGO = document.getElementById("betscsgo");
     var parimatch = document.getElementById("parimatch");
     var csgopositive = document.getElementById("csgopositive.com");
     if(betsCSGO.checked){$('#chooseBetService').click(ChooseBetsCSGO);}
     if(parimatch.checked){$('#chooseBetService').click(ChooseParimatch);}
     if(csgopositive.checked){$('#chooseBetService').click(ChooseCSGOpositive);}*/
+    $('#submitMaxBet').click(function() {
+
+    });
     //alert("Выберите сервис для ставок");
     $('#startBetsCSGO').click(function() {
       ChooseBetsCSGO(null);
