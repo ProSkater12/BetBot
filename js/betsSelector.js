@@ -506,15 +506,20 @@
         /*1 ajax запрос - вычисляем 1 коэффицент, head-to-head*/
         $.ajax(Array[consilienceIndex]).done(function(data) {
           gamesNum = FindGamesLength(data);
+          addInfo(match_id, "format", "BO" + gamesNum);
 
           matchStats.teamsName = SearchNames(data);
           console.log(matchStats.teamsName);
 
           firstHeadToHead = HeadToHead(data);
+          addInfo(match_id, "first_value", firstHeadToHead);
           console.log('мне передался из функции 1 коэффицент = ' + firstHeadToHead);
 
+          //Ищем коэффицент выигрыша если поставим на 1 или 2 команду
           winningKoef1 = SearchWinKoef(data, 0);
           winningKoef2 = SearchWinKoef(data, 2);
+          addInfo(match_id, "bet_value1", winningKoef1);
+          addInfo(match_id, "bet_value2", winningKoef2);
           console.log(winningKoef1 + ' ' + winningKoef2);
 
           /*Вычисляем 2 коэффициент. Находим кол-во прошлых игр у 1 и 2 команды по отдельности,
@@ -537,6 +542,7 @@
               async: false
             }).done(function(data) {
               PastMatchesMass[j] = FindRating(data);
+              addInfo(match_id, (j+1)+"game", CalculateRating(PastMatchesMass[j], scoreMass1[j]));
               console.log('Рейтинг ' + (j + 1) + ' команды (для 1 команды) ' + PastMatchesMass[j]);
               secondPastMatches1 += CalculateRating(PastMatchesMass[j], scoreMass1[j]);
             })
@@ -547,6 +553,7 @@
               async: false
             }).done(function(data) {
               PastMatchesMass[j] = FindRating(data);
+              addInfo(match_id, (j+1)+"game", CalculateRating(PastMatchesMass[j], scoreMass2[j]));
               console.log('Рейтинг ' + (j + 1 - gamesValue1) + ' команды (для 2 команды) ' + PastMatchesMass[j]);
               secondPastMatches2 += CalculateRating(PastMatchesMass[j], scoreMass2[j]);
             })
@@ -554,6 +561,7 @@
           secondValue = secondPastMatches1 - secondPastMatches2;
           console.log('2-ой коэффицент = ' + secondValue);
           thirdMapStats = MapStats(data);
+          addInfo(match_id, "third_value", thirdMapStats);
           console.log('мне передался из функции 3 коэффицент = ' + thirdMapStats);
           q++;
 
@@ -720,6 +728,7 @@
             if (window.hotfixMatchID == matchID[i]) fixTime = 600000;
             window.hotfixMatchID = matchID[i];
             setTimeout(function() {
+              addMatchLine("betscsgo", matchID[i], finalFirstName[i], finalSecondName[i]);
               parserHLTV(finalFirstName[i], finalSecondName[i], matchID[i], SessionToken, money);
             }, (nearestMatchTime * 1000 - 600000 + fixTime));
             /*setTimeout(function() {
@@ -758,6 +767,7 @@
           document.getElementById("logs").innerHTML += "<p>Бот сделает ставку через " + (nearestMatchTime - 300) + ' cек. Время: ' + logsDate;
           console.log('Бот сделает ставку через ' + (nearestMatchTime - 300) + ' cек');
           setTimeout(function() {
+            addMatchLine("betscsgo", matchID[firstMatchFlag - 1], finalFirstName[firstMatchFlag - 1], finalSecondName[firstMatchFlag - 1]);
             parserHLTV(finalFirstName[firstMatchFlag - 1], finalSecondName[firstMatchFlag - 1], matchID[firstMatchFlag - 1], SessionToken, money);
           }, (nearestMatchTime * 1000 - 600000));
         }
@@ -773,25 +783,6 @@
             ChooseBetsCSGO(null);
           }, ((matchTime[firstMatchFlag] - currentDate - 300) * 1000));
         }
-        /*while(matchTime[i] == matchTime[i-1])
-        {
-          i--;
-          console.log('Найден матч с таким же временем - ' + finalFirstName[i] + ' vs ' + finalSecondName[i]);
-          if ((nearestMatchTime * 1000 - 600000) < 0) nearestMatchTime = 300;
-          console.log('Бот сделает ставку через ' + (nearestMatchTime - 300) + ' cек');
-          setTimeout(function() {
-            parserHLTV(finalFirstName[i], finalSecondName[i], matchID[i], SessionToken, money);
-          }, (nearestMatchTime * 1000 - 600000 - (i * 5000)));
-        }*/
-
-        /*if(((matchTime[i-1] - currentDate - 300) * 1000) < 0) {
-          ChooseBetsCSGO();
-        }
-        else {
-          console.log('Запустить функцию снова через ' + ((matchTime[i-1] - currentDate - 300) * 1000));
-          setTimeout(function() { ChooseBetsCSGO(); }, ((matchTime[i-1] - currentDate - 300) * 1000));
-        }*/
-        //alert('stop');
       });
     } else {
       document.getElementById("logs").innerHTML += " <p>Что-то пошло не так. Нажмите кнопку 'Войти' и выполните вход в систему через Steam. Время: " + logsDate;
@@ -799,19 +790,49 @@
     }
   }
 
-/*Функция для отправки запроса на наш сервер. Создаем запись */
-  function addMatchLine(service, matchID, money, firstTeamName, secondTeamName){
-    let request_body = "service=" + service + "&matchID=" + matchID + "&money=" + money + "&names=" + firstTeamName + "vs" + secondTeamName + "&token=" + window.ownSessionToken;
+/*Функция для отправки запроса на наш сервер. Создаем запись.
+Передаем название сервиса для ставок, id матча, имена команд*/
+  function addMatchLine(service, matchID, firstTeamName, secondTeamName){
+    request = new XMLHttpRequest();
+    let request_body = "service=" + service + "&matchID=" + matchID + "&names=" + firstTeamName + "_vs_" + secondTeamName + "&token=" + window.ownSessionToken;
     request.open("GET", "http://money-button.ru.com/addMatchLine.php?" + request_body, true);
     request.send();
-    request.onreadystatechange = reqReadyStateChangeMatchLine();
+    request.onreadystatechange = reqAddMatchStatusChange();
+    //request.abort();
   }
 
-  function reqReadyStateChangeMatchLine(){
+/*Функция для добавления информации к записи матча на сервере. Принимает на вход id матча, колонку куда заносим информацию
+и саму информацию. Отправляем на наш сервер*/
+  function addInfo(matchID, infoCol, info){
+    request = new XMLHttpRequest();
+    let request_body = "matchID=" + matchID + "&col=" + infoCol + "&info=" + info + "&token=" + window.ownSessionToken;
+    request.open("GET", "http://money-button.ru.com/addInfo.php?" + request_body, true);
+    request.send();
+    request.onreadystatechange = reqAddInfoStatusChange();
+    //request.abort();
+  }
+
+  /*Происходит когда меняется статус запроса addMatchLine. Закрываем запрос*/
+  function reqAddMatchStatusChange() {
     if (request.readyState == 4) {
       let status = request.status;
       if (status == 200) {
-        console.log(request.responseText);
+        //document.getElementById("output").innerHTML=request.responseText;
+        //$('#resultbox').html(request.responseText);
+        request.abort();
+        console.log("Матч добавлен на сервер");
+      }
+    }
+  }
+
+  function reqAddInfoStatusChange() {
+    if (request.readyState == 4) {
+      let status = request.status;
+      if (status == 200) {
+        //document.getElementById("output").innerHTML=request.responseText;
+        //$('#resultbox').html(request.responseText);
+        request.abort();
+        console.log("Инфа добавлена на сервер");
       }
     }
   }
