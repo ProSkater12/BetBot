@@ -5,6 +5,8 @@
   var logsDate = new Date();
   var hotfixMatchID = 0;
   var maps = ["Cache", "Dust 2", "Mirage", "Inferno", "Nuke", "Train", "Overpass"];
+  var betscsgoLink = 'https://betscsgo.co/';
+  var maxBet = 20;
 
   function ajaxStart() {
     $('#progress').show();
@@ -18,7 +20,7 @@
   //между командами (против друг друга)
   function HeadToHead(data) {
     var WinsAndLoses = [0, 0, 0]; //массив содержащий победы, ничьи и поражения
-    var j = 0;
+    let j = 0;
     var finalValue = 0;
     //Загружаем по ссылке страницу и заносим в каждый элемент
     //массива победы, ничьи и поражения 1 команды над 2
@@ -94,8 +96,8 @@
     var saveNum = 0;
     var saveName = 0;
 
-    for (var j = 0; j < 7; j++) {
-      for (var i = 0; i < (7 - j); i++) {
+    for (let j = 0; j < 7; j++) {
+      for (let i = 0; i < (7 - j); i++) {
         if (mapsArray[i + j] > biggestNum) {
           biggestNum = mapsArray[i + j];
           biggestInd = i + j;
@@ -204,7 +206,7 @@
         /*В зависимости от кол-ва карт решаем что делать*/
         switch (BestOfNum) {
           case 1:
-            for (var i = 0; i < mapsLength; i++) {
+            for (let i = 0; i < mapsLength; i++) {
               if (Math.abs(minDifference[i]) < Math.abs(lowestValue)) {
                 lowestValue = minDifference[i];
                 lowestInd = i;
@@ -217,7 +219,7 @@
             break;
 
           case 2:
-            for (var i = 0; i < mapsLength; i++) {
+            for (let i = 0; i < mapsLength; i++) {
               if (Math.abs(minDifference[i]) < Math.abs(lowestValue)) {
                 lowestValue = minDifference[i];
                 lowestInd = i;
@@ -237,7 +239,7 @@
             return (Math.round(finalValue * 100) * 0.01);
             break;
           case 3:
-            for (var i = 0; i < mapsLength; i++) {
+            for (let i = 0; i < mapsLength; i++) {
               if (Math.abs(minDifference[i]) < Math.abs(lowestValue)) {
                 lowestValue = minDifference[i];
                 lowestInd = i;
@@ -264,7 +266,7 @@
             minDifference[0] = 0;
             minDifference[6] = 0;
             document.getElementById("logs").innerHTML += "<p>Пытаемся угадать выпавшие карты. Все кроме " + maps[0] + " и " + maps[6];
-            for (var i = 0; i < mapsLength; i++) {
+            for (let i = 0; i < mapsLength; i++) {
               lowestValue += minDifference[i];
             }
             /*пик карты в лог*/
@@ -288,8 +290,8 @@
   }
 
   function PastMatchesAnalize(data, number) {
-    var commandHTML = ''; //HTML матча с командой
-    var commandURL = 'https://www.hltv.org'; //ссылка на команду
+    let commandHTML = ''; //HTML матча с командой
+    let commandURL = 'https://www.hltv.org'; //ссылка на команду
 
     commandHTML = $(data).find('.opponent')[number].innerHTML;
     commandURL += $(commandHTML).find('a').attr('href');
@@ -323,7 +325,7 @@
     }
   }
 
-  function CalculateRating(rating, string) {
+ function CalculateRating(rating, string) {
     var scoreString = string + ' I ';
     var regWin = /\d+(?=\ - )/; //регулярное выражение: находит число, если перед ним есть " - "
     var regLose = /\d+(?=\ I )/; //регулярное выражение: находит число, если перед ним нет " - "
@@ -371,7 +373,7 @@
 
   function reqReadyStateChange(checkID) {
     if (request.readyState == 4) {
-      var status = request.status;
+      let status = request.status;
       if (status == 200) {
         //document.getElementById("output").innerHTML=request.responseText;
         //$('#resultbox').html(request.responseText);
@@ -401,7 +403,7 @@
   }
 
   //Функция которая запускает парсер сайта hltv.org
-  function parserHLTV(firstNameFromBets, secondNameFronBets, match_id, session, money) {
+  function parserHLTV(firstNameFromBets, secondNameFromBets, match_id, session, money) {
     ajaxStart();
     var iterations = 0; //кол-во итераций (счетчик массива для ссылок)
     var Array = []; //массив матчей
@@ -429,25 +431,25 @@
     var winningKoef1 = 1.3;
     var winningKoef2 = 1.3;
     var firstNameBets = String(firstNameFromBets);
-    var secondNameFronBets = String(secondNameFronBets);
+    var secondNameFromBets = String(secondNameFromBets);
 
     firstNameBets = firstNameBets.toLowerCase();
-    secondNameFronBets = secondNameFronBets.toLowerCase();
+    secondNameFromBets = secondNameFromBets.toLowerCase();
 
     if (firstNameFromBets == 'sj gaming') firstNameFromBets = 'sj';
-    if (secondNameFronBets == 'sj gaming') secondNameFronBets = 'sj';
+    if (secondNameFromBets == 'sj gaming') secondNameFromBets = 'sj';
 
     var firstNameRegEx = new RegExp(firstNameBets);
-    var secondNameRegEx = new RegExp(secondNameFronBets);
+    var secondNameRegEx = new RegExp(secondNameFromBets);
 
     /*if(firstNameFromBets == 'BOOT-dS') firstNameFromBets = 'BOOT-d[S]';
-		if(secondNameFronBets == 'BOOT-dS') secondNameFronBets = 'BOOT-d[S]';*/
+		if(secondNameFromBets == 'BOOT-dS') secondNameFromBets = 'BOOT-d[S]';*/
     /*if(firstNameFromBets == 'Vega') firstNameFromBets = 'Vega squadron';
-		if(secondNameFronBets == 'Vega') secondNameFronBets = 'Vega squadron';
+		if(secondNameFromBets == 'Vega') secondNameFromBets = 'Vega squadron';
     if(firstNameFromBets == 'Team Reapers') firstNameFromBets = 'reapers';
-		if(secondNameFronBets == 'Team Reapers') secondNameFronBets = 'reapers';
+		if(secondNameFromBets == 'Team Reapers') secondNameFromBets = 'reapers';
 
-    var transferredNames = firstNameFromBets + ' vs ' + secondNameFronBets;
+    var transferredNames = firstNameFromBets + ' vs ' + secondNameFromBets;
 		transferredNames = transferredNames.toLowerCase();*/
 
     request = new XMLHttpRequest(); //запрос к серверу, который отправляет данные о матче
@@ -456,7 +458,7 @@
 
     finalRequest = new XMLHttpRequest();
 
-    document.getElementById("logs").innerHTML += "<p> Заходим на сайт hltv и пытаемся найти матч" + firstNameFromBets + " vs " + secondNameFronBets + "Время: " + logsDate;;
+    document.getElementById("logs").innerHTML += "<p> Заходим на сайт hltv и пытаемся найти матч" + firstNameFromBets + " vs " + secondNameFromBets + "Время: " + logsDate;
     //Заходим на страну со списком матчей и заносим в массив все ссылки
     try {
       $.ajax('https://www.hltv.org/matches/').done(function(data) {
@@ -467,13 +469,14 @@
           iterations++;
         })
         console.log('iterations = ' + iterations + ' i = ' + i);
-        console.log('Переданы имена команд - ' + firstNameBets + ' vs ' + secondNameFronBets);
+        console.log('Переданы имена команд - ' + firstNameBets + ' vs ' + secondNameFromBets);
         for (i = 0; i < iterations; i++) {
           try {
             ArrayNames1[i] = $(data).find('.match-day .table .team')[2 * i].innerText;
             ArrayNames1[i] = ArrayNames1[i].toLowerCase();
             ArrayNames2[i] = $(data).find('.match-day .table .team')[(2 * i) + 1].innerText;
             ArrayNames2[i] = ArrayNames2[i].toLowerCase();
+            console.log(ArrayNames1[i] + " ArrayNames1[i] " + ArrayNames2[i] + " ArrayNames2[i]");
           } catch (e) {
             ArrayNames1[i] = '';
             ArrayNames2[i] = '';
@@ -504,15 +507,20 @@
         /*1 ajax запрос - вычисляем 1 коэффицент, head-to-head*/
         $.ajax(Array[consilienceIndex]).done(function(data) {
           gamesNum = FindGamesLength(data);
+          addInfo(match_id, "format", "BO" + gamesNum);
 
           matchStats.teamsName = SearchNames(data);
           console.log(matchStats.teamsName);
 
           firstHeadToHead = HeadToHead(data);
+          addInfo(match_id, "first_value", firstHeadToHead);
           console.log('мне передался из функции 1 коэффицент = ' + firstHeadToHead);
 
+          //Ищем коэффицент выигрыша если поставим на 1 или 2 команду
           winningKoef1 = SearchWinKoef(data, 0);
           winningKoef2 = SearchWinKoef(data, 2);
+          addInfo(match_id, "bet_value1", winningKoef1);
+          addInfo(match_id, "bet_value2", winningKoef2);
           console.log(winningKoef1 + ' ' + winningKoef2);
 
           /*Вычисляем 2 коэффициент. Находим кол-во прошлых игр у 1 и 2 команды по отдельности,
@@ -535,6 +543,7 @@
               async: false
             }).done(function(data) {
               PastMatchesMass[j] = FindRating(data);
+              addInfo(match_id, (j+1)+"game", CalculateRating(PastMatchesMass[j], scoreMass1[j]));
               console.log('Рейтинг ' + (j + 1) + ' команды (для 1 команды) ' + PastMatchesMass[j]);
               secondPastMatches1 += CalculateRating(PastMatchesMass[j], scoreMass1[j]);
             })
@@ -545,6 +554,7 @@
               async: false
             }).done(function(data) {
               PastMatchesMass[j] = FindRating(data);
+              addInfo(match_id, (j+1)+"game", CalculateRating(PastMatchesMass[j], scoreMass2[j]));
               console.log('Рейтинг ' + (j + 1 - gamesValue1) + ' команды (для 2 команды) ' + PastMatchesMass[j]);
               secondPastMatches2 += CalculateRating(PastMatchesMass[j], scoreMass2[j]);
             })
@@ -552,12 +562,13 @@
           secondValue = secondPastMatches1 - secondPastMatches2;
           console.log('2-ой коэффицент = ' + secondValue);
           thirdMapStats = MapStats(data);
+          addInfo(match_id, "third_value", thirdMapStats);
           console.log('мне передался из функции 3 коэффицент = ' + thirdMapStats);
           q++;
 
           document.getElementById("logs").innerHTML += "<p>Информация собрана. Отправляем заявку на сервер. Время: " + logsDate;
-          document.getElementById("logs").innerHTML += "name=" + matchStats.teamsName + " firstValue=" + firstHeadToHead + " secondValue=" + secondValue + " thirdValue=" + thirdMapStats + " &money=" + money + "&1winkoef=" + winningKoef1 + "&2winkoef=" + winningKoef2 + " gamesNum=" + gamesNum + "&multiplikator=" + window.multiplicator;
-          requestBody = "name=" + matchStats.teamsName + "&firstValue=" + firstHeadToHead + "&secondValue=" + secondValue + "&thirdValue=" + thirdMapStats + "&matchID=" + match_id + "&SessionToken=" + session + "&money=" + money + "&1winkoef=" + winningKoef1 + "&2winkoef=" + winningKoef2 + "&gamesNum=" + gamesNum + "&multiplikator=" + window.multiplicator;
+          document.getElementById("logs").innerHTML += "name=" + matchStats.teamsName + " firstValue=" + firstHeadToHead + " secondValue=" + secondValue + " thirdValue=" + thirdMapStats + " &money=" + money + "&1winkoef=" + winningKoef1 + "&2winkoef=" + winningKoef2 + " gamesNum=" + gamesNum + "&multiplikator=" + window.multiplicator + "&maxbet=" + window.maxBet;
+          requestBody = "name=" + matchStats.teamsName + "&firstValue=" + firstHeadToHead + "&secondValue=" + secondValue + "&thirdValue=" + thirdMapStats + "&matchID=" + match_id + "&SessionToken=" + session + "&money=" + money + "&1winkoef=" + winningKoef1 + "&2winkoef=" + winningKoef2 + "&gamesNum=" + gamesNum + "&multiplikator=" + window.multiplicator + "&maxbet=" + window.maxBet;
           console.log("http://money-button.ru.com/postdata.php?" + requestBody);
           request.open("GET", "http://money-button.ru.com/postdata.php?" + requestBody, false);
           request.send();
@@ -642,7 +653,7 @@
       document.getElementById("logs").innerHTML += "<p>Начинаем работу с сервисом betsCSGO."
       console.log(currentDate);
       $.ajax({
-        url: 'https://betscsgo.com/',
+        url: 'https://betscsgo.co/',
         dataType: 'text'
       }).done(function(data) {
         document.getElementById("logs").innerHTML += "<p>Сайт успешно загружен. Получаем список игр (Снизу самые ближайшие). Время: " + logsDate;
@@ -718,6 +729,7 @@
             if (window.hotfixMatchID == matchID[i]) fixTime = 600000;
             window.hotfixMatchID = matchID[i];
             setTimeout(function() {
+              addMatchLine("betscsgo", matchID[i], finalFirstName[i], finalSecondName[i]);
               parserHLTV(finalFirstName[i], finalSecondName[i], matchID[i], SessionToken, money);
             }, (nearestMatchTime * 1000 - 600000 + fixTime));
             /*setTimeout(function() {
@@ -756,6 +768,7 @@
           document.getElementById("logs").innerHTML += "<p>Бот сделает ставку через " + (nearestMatchTime - 300) + ' cек. Время: ' + logsDate;
           console.log('Бот сделает ставку через ' + (nearestMatchTime - 300) + ' cек');
           setTimeout(function() {
+            addMatchLine("betscsgo", matchID[firstMatchFlag - 1], finalFirstName[firstMatchFlag - 1], finalSecondName[firstMatchFlag - 1]);
             parserHLTV(finalFirstName[firstMatchFlag - 1], finalSecondName[firstMatchFlag - 1], matchID[firstMatchFlag - 1], SessionToken, money);
           }, (nearestMatchTime * 1000 - 600000));
         }
@@ -771,29 +784,57 @@
             ChooseBetsCSGO(null);
           }, ((matchTime[firstMatchFlag] - currentDate - 300) * 1000));
         }
-        /*while(matchTime[i] == matchTime[i-1])
-        {
-          i--;
-          console.log('Найден матч с таким же временем - ' + finalFirstName[i] + ' vs ' + finalSecondName[i]);
-          if ((nearestMatchTime * 1000 - 600000) < 0) nearestMatchTime = 300;
-          console.log('Бот сделает ставку через ' + (nearestMatchTime - 300) + ' cек');
-          setTimeout(function() {
-            parserHLTV(finalFirstName[i], finalSecondName[i], matchID[i], SessionToken, money);
-          }, (nearestMatchTime * 1000 - 600000 - (i * 5000)));
-        }*/
-
-        /*if(((matchTime[i-1] - currentDate - 300) * 1000) < 0) {
-          ChooseBetsCSGO();
-        }
-        else {
-          console.log('Запустить функцию снова через ' + ((matchTime[i-1] - currentDate - 300) * 1000));
-          setTimeout(function() { ChooseBetsCSGO(); }, ((matchTime[i-1] - currentDate - 300) * 1000));
-        }*/
-        //alert('stop');
       });
     } else {
       document.getElementById("logs").innerHTML += " <p>Что-то пошло не так. Нажмите кнопку 'Войти' и выполните вход в систему через Steam. Время: " + logsDate;
       alert("Войдите в систему через Steam, пожалуйста");
+    }
+  }
+
+/*Функция для отправки запроса на наш сервер. Создаем запись.
+Передаем название сервиса для ставок, id матча, имена команд*/
+  function addMatchLine(service, matchID, firstTeamName, secondTeamName){
+    request = new XMLHttpRequest();
+    let request_body = "service=" + service + "&matchID=" + matchID + "&names=" + firstTeamName + "_vs_" + secondTeamName + "&token=" + window.ownSessionToken;
+    request.open("GET", "http://money-button.ru.com/addMatchLine.php?" + request_body, false);
+    request.send();
+    request.onreadystatechange = reqAddMatchStatusChange();
+    //request.abort();
+  }
+
+/*Функция для добавления информации к записи матча на сервере. Принимает на вход id матча, колонку куда заносим информацию
+и саму информацию. Отправляем на наш сервер*/
+  function addInfo(matchID, infoCol, info){
+    request = new XMLHttpRequest();
+    let request_body = "matchID=" + matchID + "&col=" + infoCol + "&info=" + info + "&token=" + window.ownSessionToken;
+    request.open("GET", "http://money-button.ru.com/addInfo.php?" + request_body, true);
+    request.send();
+    request.onreadystatechange = reqAddInfoStatusChange();
+    //request.abort();
+  }
+
+  /*Происходит когда меняется статус запроса addMatchLine. Закрываем запрос*/
+  function reqAddMatchStatusChange() {
+    if (request.readyState == 4) {
+      let status = request.status;
+      if (status == 200) {
+        //document.getElementById("output").innerHTML=request.responseText;
+        //$('#resultbox').html(request.responseText);
+        request.abort();
+        console.log("Матч добавлен на сервер");
+      }
+    }
+  }
+
+  function reqAddInfoStatusChange() {
+    if (request.readyState == 4) {
+      let status = request.status;
+      if (status == 200) {
+        //document.getElementById("output").innerHTML=request.responseText;
+        //$('#resultbox').html(request.responseText);
+        request.abort();
+        console.log("Инфа добавлена на сервер");
+      }
     }
   }
 
@@ -815,11 +856,26 @@
     });
   }
 
-  //Функция, которая запускает в новом окне авторизацию на сервере. Передаем туда собственный токен сессии
+  //Функция, которая запускает в новом окне авторизацию на сервере. Передаем туда собственный токен сессии если мы не вошли до этого
   function Authorize() {
+    let checkEnter = document.getElementById("SteamAuth");
+    if(checkEnter.value != "Выйти"){
     window.ownSessionToken = GenerateSessionToken();
-    console.log("http://money-button.ru.com/steamauth.php?login&setSessionToken=" + window.ownSessionToken);
-    window.open("http://money-button.ru.com/steamauth.php?login&setSessionToken=" + window.ownSessionToken, '_blank').focus();
+    /*chrome.storage.sync.set({"ownToken": window.ownSessionToken}, function() {
+      console.log("Токен успешно сохранен");
+    });*/
+    localStorage["ownToken"] = window.ownSessionToken;
+    console.log("http://money-button.ru.com/register/" + window.ownSessionToken);
+    window.open("http://money-button.ru.com/register/" + window.ownSessionToken, '_blank').focus();
+
+    CheckUser();
+  }
+  else{
+    //Удаляем свой токен сессии чтобы потом войти в другой аккаунт
+    window.ownSessionToken = "";
+    localStorage["ownToken"] = "";
+    checkEnter.value = "Войти";
+  }
   }
 
   //Функция, генерирующая собственный токен сессии, чтобы по нему находить в таблице юзеров нужного на сервере
@@ -873,7 +929,50 @@ toggle between hiding and showing the dropdown content */
     elmnt.style.backgroundColor = color;
   }
 
+  //Функция для проверки того, что наш домен соответствует какому то пользователю
+  //Посылаем запрос и получаем булевое значение есть ли пользователь по этому токену
+  function CheckUser(){
+    if(window.ownSessionToken != ""){
+      requestUser = new XMLHttpRequest();
+      requestUser.open("GET", "http://money-button.ru.com/checkUser/" + window.ownSessionToken, false);
+      requestUser.send();
+      requestUser.onreadystatechange = checkUserStatusChange();
+    }
+  }
+
+//В случае изменения статуса запроса из функции CheckUser() на 200 и ответом "true"
+//на запрос, меняем кнопку с "Войти" на "Выйти" тем самым меняя ее функционал
+  function checkUserStatusChange(){
+    if (requestUser.readyState == 4) {
+      let status = requestUser.status;
+      if (status == 200) {
+        console.log(requestUser.responseText);
+        let user = requestUser.responseText;
+        requestUser.abort();
+
+        if(user){
+          let enterButton = document.getElementById("SteamAuth");
+          enterButton.value = "Выйти";
+        }
+        //console.log("Матч добавлен на сервер");
+      }
+    }
+  }
+
   $(function() {
+    /*chrome.storage.sync.get(["ownToken"], function(){
+      console.log('Value currently is ' + window.ownSessionToken.ownToken);
+    });*/
+    window.ownSessionToken = localStorage["ownToken"];
+
+    CheckUser();
+
+    if(window.ownSessionToken != ""){
+      console.log("Токен успешно загружен " + window.ownSessionToken);
+    }
+    else{
+      console.log("Нет токена");
+    }
     /*--------Главное меню --------------*/
     $('#defaultOpen').click(function() {
       openPage('Home', this, 'green');
@@ -893,12 +992,30 @@ toggle between hiding and showing the dropdown content */
     /*-----------------Слайдер мультипликатора---------------------*/
     var slider = document.getElementById("Multiplicator");
     var output = document.getElementById("Multiplicator-view");
+
+    slider.value = localStorage["MultiplicatorSlider"];
     output.innerHTML = slider.value; // Display the default slider value
     window.multiplicator = slider.value;
 
     // Update the current slider value (each time you drag the slider handle)
     slider.oninput = function() {
+      localStorage["MultiplicatorSlider"] = this.value;
       output.innerHTML = this.value;
+      window.multiplicator = this.value;
+    }
+
+    /*---------------Слайдер для максимальной ставки-----------------*/
+    var maxBetSlider = document.getElementById("MaxBet");
+    var maxBetOutput = document.getElementById("MaxBet-view");
+
+    maxBetSlider.value = localStorage["maxBetSlider"];
+    maxBetOutput.innerHTML = maxBetSlider.value + " % от банка";
+    window.maxBet = maxBetSlider.value;
+
+    maxBetSlider.oninput = function() {
+      localStorage["maxBetSlider"] = this.value;
+      maxBetOutput.innerHTML = this.value + " % от банка";
+      window.maxBet = this.value;
     }
 
     // Close the dropdown menu if the user clicks outside of it
@@ -916,18 +1033,23 @@ toggle between hiding and showing the dropdown content */
     }
 
     /*----------Выпадающий список сервисов для ставок------------*/
-    var drop_down = document.getElementById("myDropdown");
+    /*var drop_down = document.getElementById("myDropdown");
     var output_dropdown = document.getElementById("Bet-service-view");
+    output_dropdown.innerHTML = drop_down.value;
+    window.myDropdown = drop_down.value;
 
     drop_down.oninput = function() {
       output_dropdown.innerHTML = this.value;
-    }
+    }*/
     /*var betsCSGO = document.getElementById("betscsgo");
     var parimatch = document.getElementById("parimatch");
     var csgopositive = document.getElementById("csgopositive.com");
     if(betsCSGO.checked){$('#chooseBetService').click(ChooseBetsCSGO);}
     if(parimatch.checked){$('#chooseBetService').click(ChooseParimatch);}
     if(csgopositive.checked){$('#chooseBetService').click(ChooseCSGOpositive);}*/
+    $('#submitMaxBet').click(function() {
+
+    });
     //alert("Выберите сервис для ставок");
     $('#startBetsCSGO').click(function() {
       ChooseBetsCSGO(null);
