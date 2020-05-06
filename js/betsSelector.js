@@ -8,6 +8,23 @@
   var betscsgoLink = 'https://betscsgo.cc/';
   var maxBet = 20;
 
+  //Проверяем разрешения для нашего приложения
+  if (!localStorage['premissions']) {
+    chrome.permissions.contains({
+      origins: ["https://betscsgo.cc/", "https://*.com/", "http://*.ru.com/"]
+    }, function(result) {
+      if (result) {
+        // The extension has the permissions.
+      } else {
+        // The extension doesn't have the permissions.
+        $('.modal-container').css('display', 'unset');
+        $('.krest-modal, .payment-button').on('click', function() {
+          $('.modal-container').css('display', 'none');
+        })
+      }
+    });
+  }
+
   function ajaxStart() {
     $('#progress').show();
   }
@@ -951,7 +968,7 @@ toggle between hiding and showing the dropdown content */
           enterButton.value = "Выйти";
           let predictions = document.getElementById("predictions");
           predictions.innerHTML = Number(user);
-          if(localStorage['betscsgoLink']) betscsgoLink = localStorage['betscsgoLink'];
+          if (localStorage['betscsgoLink']) betscsgoLink = localStorage['betscsgoLink'];
           document.getElementById("betscsgoDomen").value = betscsgoLink;
         }
         //console.log("Матч добавлен на сервер");
@@ -963,15 +980,7 @@ toggle between hiding and showing the dropdown content */
     /*chrome.storage.sync.get(["ownToken"], function(){
       console.log('Value currently is ' + window.ownSessionToken.ownToken);
     });*/
-    window.ownSessionToken = localStorage["ownToken"];
 
-    CheckUser();
-
-    if (window.ownSessionToken != "") {
-      console.log("Токен успешно загружен " + window.ownSessionToken);
-    } else {
-      console.log("Нет токена");
-    }
     /*--------Главное меню --------------*/
     $('#defaultOpen').click(function() {
       openPage('Home', this, 'green');
@@ -1059,5 +1068,29 @@ toggle between hiding and showing the dropdown content */
     $('#startLootBet').click(ChooseLootBet);
     $('#SteamAuth').click(Authorize);
     $('#BuyPredicts').click(BuyPredicts);
+    $('#FirstLaunch').click(function() {
+      chrome.permissions.request({
+        origins: ["https://betscsgo.cc/", "https://*.com/"]
+      }, function(granted) {
+        // The callback argument will be true if the user granted the permissions.
+        if (granted) {
+          window.ownSessionToken = localStorage["ownToken"];
+
+          CheckUser();
+
+          if (window.ownSessionToken != "") {
+            console.log("Токен успешно загружен " + window.ownSessionToken);
+          } else {
+            console.log("Нет токена");
+          }
+          
+          alert('Можете приступать к работе');
+          localStorage['premissions'] = true;
+          $('.modal-container').css('display', 'none');
+        } else {
+          alert('Расширение не сможет работать.');
+        }
+      });
+    });
   });
 })(jQuery);
