@@ -44,18 +44,13 @@
         <a class="nav-link" href="#">Link 3</a>
       </li> -->
       </ul>
-      <input id="refresh" button class="btn btn-outline-success my-2 my-sm-0" value="Обновить">
       <form class="form-inline my-2 my-lg-0">
         <div class="container-custom">
           <span class="navbar-text">
-            <font color="white">Осталось прогнозов:</font>
+            <font color="white">Осталось прогнозов: <span id="predictions" class='predictions'></span></font>
           </span>
         </div>
-        <!--<input id="BuyPredicts" button class="btn btn-outline-success my-2 my-sm-0" type="button" value="Пополнить счет" /> -->
-        <form class="form-inline my-2 my-lg-0">
-          <input type="number" class="number-custom" min="1" max="500" step="1">
-          <input id="BuyPredicts" type="submit" class="btn btn-outline-success my-2 my-sm-0" value="Купить прогнозы">
-        </form>
+        <input id="BuyPredicts" type="submit" class="btn btn-outline-success my-2 my-sm-0" value="Купить прогнозы">
         <input id="SteamAuth" button class="btn btn-outline-success my-2 my-sm-0" type="button" value="Войти" />
       </form>
     </div>
@@ -201,22 +196,11 @@
               </div>
               <div class="col-auto">
                 <input type="text" class="form-control" id="betscsgoDomen" placeholder="Ваш собственный домен">
+                <span class='hint'>Установите свой домен, если сайт забанят </span>
               </div>
               <div class="col-auto">
                 <input type="button" id="submitMaxBet" value="Сохранить" class="btn success">
               </div>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-              <label class="form-check-label" for="exampleRadios1">
-                parimatch
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-              <label class="form-check-label" for="exampleRadios1">
-                LootBet
-              </label>
             </div>
           </p>
 
@@ -229,7 +213,7 @@
         <div class="container-custom-logs container-fluid">
           <h3>Логи</h3>
           <div class="prokrutka" id="logs">Вас приветствует бот для ставок CS:GO. Войдите в систему, чтобы я смог работать. Пожалуйста, во время работы бота не обращайте внимания на подвисания. Мы намеренно отключили асинхронность из-за особенностей
-            работы алгоритма. Возможно в будующем эта проблема будет решена</div>
+            работы алгоритма. Возможно в будущем эта проблема будет решена</div>
         </div>
         <!--Конец контейнера -->
       </div>
@@ -251,11 +235,11 @@
     <p><input id="chooseBetService" type="submit" value="Выбрать">
   </div>
 </form> -->
-  <footer>
+  <!--<footer>
     <p>Copyright Немытов Андрей
       <div id="qunit"></div>
       <div id="qunit-fixture"></div>
-  </footer>
+  </footer>-->
 </body>
 
 </html>

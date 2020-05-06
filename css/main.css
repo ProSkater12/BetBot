@@ -29,6 +29,15 @@ span {
    color: #f58220;
 	}
 
+  .hint{
+    color: gray;
+    font-size: 10px;
+  }
+
+  span .predictions{
+    color: white;
+  }
+
 	.mlogin {
    margin: 170px auto 0;
 	}

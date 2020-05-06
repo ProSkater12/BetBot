@@ -5,7 +5,7 @@
   var logsDate = new Date();
   var hotfixMatchID = 0;
   var maps = ["Cache", "Dust 2", "Mirage", "Inferno", "Nuke", "Train", "Overpass"];
-  var betscsgoLink = 'https://betscsgo.co/';
+  var betscsgoLink = 'https://betscsgo.cc/';
   var maxBet = 20;
 
   function ajaxStart() {
@@ -325,7 +325,7 @@
     }
   }
 
- function CalculateRating(rating, string) {
+  function CalculateRating(rating, string) {
     var scoreString = string + ' I ';
     var regWin = /\d+(?=\ - )/; //регулярное выражение: находит число, если перед ним есть " - "
     var regLose = /\d+(?=\ I )/; //регулярное выражение: находит число, если перед ним нет " - "
@@ -403,7 +403,7 @@
   }
 
   //Функция которая запускает парсер сайта hltv.org
-  function parserHLTV(firstNameFromBets, secondNameFronBets, match_id, session, money) {
+  function parserHLTV(firstNameFromBets, secondNameFromBets, match_id, session, money) {
     ajaxStart();
     var iterations = 0; //кол-во итераций (счетчик массива для ссылок)
     var Array = []; //массив матчей
@@ -431,25 +431,25 @@
     var winningKoef1 = 1.3;
     var winningKoef2 = 1.3;
     var firstNameBets = String(firstNameFromBets);
-    var secondNameFronBets = String(secondNameFronBets);
+    var secondNameFromBets = String(secondNameFromBets);
 
     firstNameBets = firstNameBets.toLowerCase();
-    secondNameFronBets = secondNameFronBets.toLowerCase();
+    secondNameFromBets = secondNameFromBets.toLowerCase();
 
     if (firstNameFromBets == 'sj gaming') firstNameFromBets = 'sj';
-    if (secondNameFronBets == 'sj gaming') secondNameFronBets = 'sj';
+    if (secondNameFromBets == 'sj gaming') secondNameFromBets = 'sj';
 
     var firstNameRegEx = new RegExp(firstNameBets);
-    var secondNameRegEx = new RegExp(secondNameFronBets);
+    var secondNameRegEx = new RegExp(secondNameFromBets);
 
     /*if(firstNameFromBets == 'BOOT-dS') firstNameFromBets = 'BOOT-d[S]';
-		if(secondNameFronBets == 'BOOT-dS') secondNameFronBets = 'BOOT-d[S]';*/
+		if(secondNameFromBets == 'BOOT-dS') secondNameFromBets = 'BOOT-d[S]';*/
     /*if(firstNameFromBets == 'Vega') firstNameFromBets = 'Vega squadron';
-		if(secondNameFronBets == 'Vega') secondNameFronBets = 'Vega squadron';
+		if(secondNameFromBets == 'Vega') secondNameFromBets = 'Vega squadron';
     if(firstNameFromBets == 'Team Reapers') firstNameFromBets = 'reapers';
-		if(secondNameFronBets == 'Team Reapers') secondNameFronBets = 'reapers';
+		if(secondNameFromBets == 'Team Reapers') secondNameFromBets = 'reapers';
 
-    var transferredNames = firstNameFromBets + ' vs ' + secondNameFronBets;
+    var transferredNames = firstNameFromBets + ' vs ' + secondNameFromBets;
 		transferredNames = transferredNames.toLowerCase();*/
 
     request = new XMLHttpRequest(); //запрос к серверу, который отправляет данные о матче
@@ -458,7 +458,7 @@
 
     finalRequest = new XMLHttpRequest();
 
-    document.getElementById("logs").innerHTML += "<p> Заходим на сайт hltv и пытаемся найти матч" + firstNameFromBets + " vs " + secondNameFronBets + "Время: " + logsDate;;
+    document.getElementById("logs").innerHTML += "<p> Заходим на сайт hltv и пытаемся найти матч" + firstNameFromBets + " vs " + secondNameFromBets + "Время: " + logsDate;
     //Заходим на страну со списком матчей и заносим в массив все ссылки
     try {
       $.ajax('https://www.hltv.org/matches/').done(function(data) {
@@ -469,13 +469,14 @@
           iterations++;
         })
         console.log('iterations = ' + iterations + ' i = ' + i);
-        console.log('Переданы имена команд - ' + firstNameBets + ' vs ' + secondNameFronBets);
-        for (i = 0; i < iterations; i++) {
+        console.log('Переданы имена команд - ' + firstNameBets + ' vs ' + secondNameFromBets);
+        for (i = 0; i < iterations && i < 30; i++) {
           try {
             ArrayNames1[i] = $(data).find('.match-day .table .team')[2 * i].innerText;
             ArrayNames1[i] = ArrayNames1[i].toLowerCase();
             ArrayNames2[i] = $(data).find('.match-day .table .team')[(2 * i) + 1].innerText;
             ArrayNames2[i] = ArrayNames2[i].toLowerCase();
+            console.log(ArrayNames1[i] + " ArrayNames1[i] " + ArrayNames2[i] + " ArrayNames2[i]");
           } catch (e) {
             ArrayNames1[i] = '';
             ArrayNames2[i] = '';
@@ -542,7 +543,7 @@
               async: false
             }).done(function(data) {
               PastMatchesMass[j] = FindRating(data);
-              addInfo(match_id, (j+1)+"game", CalculateRating(PastMatchesMass[j], scoreMass1[j]));
+              addInfo(match_id, (j + 1) + "game", CalculateRating(PastMatchesMass[j], scoreMass1[j]));
               console.log('Рейтинг ' + (j + 1) + ' команды (для 1 команды) ' + PastMatchesMass[j]);
               secondPastMatches1 += CalculateRating(PastMatchesMass[j], scoreMass1[j]);
             })
@@ -553,7 +554,7 @@
               async: false
             }).done(function(data) {
               PastMatchesMass[j] = FindRating(data);
-              addInfo(match_id, (j+1)+"game", CalculateRating(PastMatchesMass[j], scoreMass2[j]));
+              addInfo(match_id, (j + 1) + "game", CalculateRating(PastMatchesMass[j], scoreMass2[j]));
               console.log('Рейтинг ' + (j + 1 - gamesValue1) + ' команды (для 2 команды) ' + PastMatchesMass[j]);
               secondPastMatches2 += CalculateRating(PastMatchesMass[j], scoreMass2[j]);
             })
@@ -566,10 +567,10 @@
           q++;
 
           document.getElementById("logs").innerHTML += "<p>Информация собрана. Отправляем заявку на сервер. Время: " + logsDate;
-          document.getElementById("logs").innerHTML += "name=" + matchStats.teamsName + " firstValue=" + firstHeadToHead + " secondValue=" + secondValue + " thirdValue=" + thirdMapStats + " &money=" + money + "&1winkoef=" + winningKoef1 + "&2winkoef=" + winningKoef2 + " gamesNum=" + gamesNum + "&multiplikator=" + window.multiplicator;
-          requestBody = "name=" + matchStats.teamsName + "&firstValue=" + firstHeadToHead + "&secondValue=" + secondValue + "&thirdValue=" + thirdMapStats + "&matchID=" + match_id + "&SessionToken=" + session + "&money=" + money + "&1winkoef=" + winningKoef1 + "&2winkoef=" + winningKoef2 + "&gamesNum=" + gamesNum + "&multiplikator=" + window.multiplicator;
-          console.log("http://money-button.ru.com/postdata.php?" + requestBody);
-          request.open("GET", "http://money-button.ru.com/postdata.php?" + requestBody, false);
+          document.getElementById("logs").innerHTML += "name=" + matchStats.teamsName + " firstValue=" + firstHeadToHead + " secondValue=" + secondValue + " thirdValue=" + thirdMapStats + " &money=" + money + "&1winkoef=" + winningKoef1 + "&2winkoef=" + winningKoef2 + " gamesNum=" + gamesNum + "&multiplikator=" + window.multiplicator + "&maxbet=" + window.maxBet + '&url=' + betscsgoLink;
+          requestBody = "name=" + matchStats.teamsName + "&firstValue=" + firstHeadToHead + "&secondValue=" + secondValue + "&thirdValue=" + thirdMapStats + "&matchID=" + match_id + "&SessionToken=" + session + "&money=" + money + "&1winkoef=" + winningKoef1 + "&2winkoef=" + winningKoef2 + "&gamesNum=" + gamesNum + "&multiplikator=" + window.multiplicator + "&maxbet=" + window.maxBet + '&url=' + betscsgoLink + '&token=' + window.ownSessionToken;
+          console.log("http://bet-bot.ru.com/php/postdata.php?" + requestBody);
+          request.open("GET", "http://bet-bot.ru.com/php/postdata.php?" + requestBody, false);
           request.send();
           request.onreadystatechange = reqReadyStateChange(match_id);
           //return 0;
@@ -587,6 +588,7 @@
     if (finalRequest.readyState == 4) {
       var status = finalRequest.status;
       if (status == 200) {
+        CheckUser();
         document.getElementById("logs").innerHTML += "<p>Бот закончил работу со ставкой, начинаем новую. Время: " + logsDate;
         console.log('Бот закончил работу со ставкой, начинаем новую с id ' + checkID);
         ChooseBetsCSGO(checkID)
@@ -652,7 +654,7 @@
       document.getElementById("logs").innerHTML += "<p>Начинаем работу с сервисом betsCSGO."
       console.log(currentDate);
       $.ajax({
-        url: 'https://betscsgo.co/',
+        url: betscsgoLink,
         dataType: 'text'
       }).done(function(data) {
         document.getElementById("logs").innerHTML += "<p>Сайт успешно загружен. Получаем список игр (Снизу самые ближайшие). Время: " + logsDate;
@@ -727,13 +729,14 @@
           if ((finalFirstName[i] != "TBD") && (finalSecondName[i] != "TBD")) {
             if (window.hotfixMatchID == matchID[i]) fixTime = 600000;
             window.hotfixMatchID = matchID[i];
+            /*setTimeout(function() {
+              addMatchLine("betscsgo", matchID[i], finalFirstName[i], finalSecondName[i]);
+              parserHLTV(finalFirstName[i], finalSecondName[i], matchID[i], SessionToken, money);
+            }, (nearestMatchTime * 1000 - 600000 + fixTime));*/
             setTimeout(function() {
               addMatchLine("betscsgo", matchID[i], finalFirstName[i], finalSecondName[i]);
               parserHLTV(finalFirstName[i], finalSecondName[i], matchID[i], SessionToken, money);
-            }, (nearestMatchTime * 1000 - 600000 + fixTime));
-            /*setTimeout(function() {
-              parserHLTV(finalFirstName[i], finalSecondName[i], matchID[i], SessionToken, money);
-            }, 0);*/
+            }, 0);
             //alert("Ky");
           } else {
             document.getElementById("logs").innerHTML += "<p>Команды не известны. Новый цикл начнется через " + (matchTime[i] - currentDate - 300) + " cек. Время: " + logsDate;
@@ -790,23 +793,23 @@
     }
   }
 
-/*Функция для отправки запроса на наш сервер. Создаем запись.
-Передаем название сервиса для ставок, id матча, имена команд*/
-  function addMatchLine(service, matchID, firstTeamName, secondTeamName){
+  /*Функция для отправки запроса на наш сервер. Создаем запись.
+  Передаем название сервиса для ставок, id матча, имена команд*/
+  function addMatchLine(service, matchID, firstTeamName, secondTeamName) {
     request = new XMLHttpRequest();
     let request_body = "service=" + service + "&matchID=" + matchID + "&names=" + firstTeamName + "_vs_" + secondTeamName + "&token=" + window.ownSessionToken;
-    request.open("GET", "http://money-button.ru.com/addMatchLine.php?" + request_body, true);
+    request.open("GET", "http://bet-bot.ru.com/php/addMatchLine.php?" + request_body, false);
     request.send();
     request.onreadystatechange = reqAddMatchStatusChange();
     //request.abort();
   }
 
-/*Функция для добавления информации к записи матча на сервере. Принимает на вход id матча, колонку куда заносим информацию
-и саму информацию. Отправляем на наш сервер*/
-  function addInfo(matchID, infoCol, info){
+  /*Функция для добавления информации к записи матча на сервере. Принимает на вход id матча, колонку куда заносим информацию
+  и саму информацию. Отправляем на наш сервер*/
+  function addInfo(matchID, infoCol, info) {
     request = new XMLHttpRequest();
     let request_body = "matchID=" + matchID + "&col=" + infoCol + "&info=" + info + "&token=" + window.ownSessionToken;
-    request.open("GET", "http://money-button.ru.com/addInfo.php?" + request_body, true);
+    request.open("GET", "http://bet-bot.ru.com/php/addInfo.php?" + request_body, true);
     request.send();
     request.onreadystatechange = reqAddInfoStatusChange();
     //request.abort();
@@ -855,32 +858,41 @@
     });
   }
 
-  //Функция, которая запускает в новом окне авторизацию на сервере. Передаем туда собственный токен сессии
+  //Функция, которая запускает в новом окне авторизацию на сервере. Передаем туда собственный токен сессии если мы не вошли до этого
   function Authorize() {
-    window.ownSessionToken = GenerateSessionToken();
-    console.log("http://money-button.ru.com/steamauth.php?login&setSessionToken=" + window.ownSessionToken);
-    window.open("http://money-button.ru.com/steamauth.php?login&setSessionToken=" + window.ownSessionToken, '_blank').focus();
+    let checkEnter = document.getElementById("SteamAuth");
+    if (checkEnter.value != "Выйти") {
+      window.ownSessionToken = GenerateSessionToken();
+      /*chrome.storage.sync.set({"ownToken": window.ownSessionToken}, function() {
+        console.log("Токен успешно сохранен");
+      });*/
+      localStorage["ownToken"] = window.ownSessionToken;
+      console.log("http://bet-bot.ru.com/php/steamauthExtension.php?setSessionToken=" + window.ownSessionToken);
+      window.open("http://bet-bot.ru.com/php/steamauthExtension.php?setSessionToken=" + window.ownSessionToken, '_blank').focus();
+
+      CheckUser();
+    } else {
+      //Удаляем свой токен сессии чтобы потом войти в другой аккаунт
+      window.ownSessionToken = "";
+      localStorage["ownToken"] = "";
+      checkEnter.value = "Войти";
+    }
   }
 
   //Функция, генерирующая собственный токен сессии, чтобы по нему находить в таблице юзеров нужного на сервере
   function GenerateSessionToken() {
-    var length = 15,
+    var length = 32,
       charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
       retVal = "";
-    for (var i = 0, n = charset.length; i < length; ++i) {
+    for (var i = 0, n = charset.length; i < length; i++) {
       retVal += charset.charAt(Math.floor(Math.random() * n));
     }
     return retVal;
   }
 
-  //Функция, которая обновляет информацию о пользователе (его ставки)
-  function UpdatePredictions(ownSessionToken) {
-
-  }
-
   function BuyPredicts() {
     if (window.ownSessionToken != null) {
-      window.open("http://money-button.ru.com/buy_predicts.php", '_blank').focus();
+      window.open("http://bet-bot.ru.com/", '_blank').focus();
     } else {
       alert("Войдите в систему через Steam, пожалуйста");
     }
@@ -913,7 +925,53 @@ toggle between hiding and showing the dropdown content */
     elmnt.style.backgroundColor = color;
   }
 
+  //Функция для проверки того, что наш домен соответствует какому то пользователю
+  //Посылаем запрос и получаем булевое значение есть ли пользователь по этому токену
+  function CheckUser() {
+    if (window.ownSessionToken != "") {
+      requestUser = new XMLHttpRequest();
+      requestUser.open("GET", "http://bet-bot.ru.com/php/checkUser.php?token=" + window.ownSessionToken, false);
+      requestUser.send();
+      requestUser.onreadystatechange = checkUserStatusChange();
+    }
+  }
+
+  //В случае изменения статуса запроса из функции CheckUser() на 200 и ответом "true"
+  //на запрос, меняем кнопку с "Войти" на "Выйти" тем самым меняя ее функционал
+  function checkUserStatusChange() {
+    if (requestUser.readyState == 4) {
+      let status = requestUser.status;
+      if (status == 200) {
+        console.log(requestUser.responseText);
+        let user = requestUser.responseText;
+        requestUser.abort();
+
+        if (user) {
+          let enterButton = document.getElementById("SteamAuth");
+          enterButton.value = "Выйти";
+          let predictions = document.getElementById("predictions");
+          predictions.innerHTML = Number(user);
+          if(localStorage['betscsgoLink']) betscsgoLink = localStorage['betscsgoLink'];
+          document.getElementById("betscsgoDomen").value = betscsgoLink;
+        }
+        //console.log("Матч добавлен на сервер");
+      }
+    }
+  }
+
   $(function() {
+    /*chrome.storage.sync.get(["ownToken"], function(){
+      console.log('Value currently is ' + window.ownSessionToken.ownToken);
+    });*/
+    window.ownSessionToken = localStorage["ownToken"];
+
+    CheckUser();
+
+    if (window.ownSessionToken != "") {
+      console.log("Токен успешно загружен " + window.ownSessionToken);
+    } else {
+      console.log("Нет токена");
+    }
     /*--------Главное меню --------------*/
     $('#defaultOpen').click(function() {
       openPage('Home', this, 'green');
@@ -933,22 +991,30 @@ toggle between hiding and showing the dropdown content */
     /*-----------------Слайдер мультипликатора---------------------*/
     var slider = document.getElementById("Multiplicator");
     var output = document.getElementById("Multiplicator-view");
+
+    slider.value = localStorage["MultiplicatorSlider"];
     output.innerHTML = slider.value; // Display the default slider value
     window.multiplicator = slider.value;
 
     // Update the current slider value (each time you drag the slider handle)
     slider.oninput = function() {
+      localStorage["MultiplicatorSlider"] = this.value;
       output.innerHTML = this.value;
+      window.multiplicator = this.value;
     }
 
     /*---------------Слайдер для максимальной ставки-----------------*/
     var maxBetSlider = document.getElementById("MaxBet");
     var maxBetOutput = document.getElementById("MaxBet-view");
+
+    maxBetSlider.value = localStorage["maxBetSlider"];
     maxBetOutput.innerHTML = maxBetSlider.value + " % от банка";
     window.maxBet = maxBetSlider.value;
 
     maxBetSlider.oninput = function() {
+      localStorage["maxBetSlider"] = this.value;
       maxBetOutput.innerHTML = this.value + " % от банка";
+      window.maxBet = this.value;
     }
 
     // Close the dropdown menu if the user clicks outside of it
@@ -981,7 +1047,8 @@ toggle between hiding and showing the dropdown content */
     if(parimatch.checked){$('#chooseBetService').click(ChooseParimatch);}
     if(csgopositive.checked){$('#chooseBetService').click(ChooseCSGOpositive);}*/
     $('#submitMaxBet').click(function() {
-
+      betscsgoLink = document.getElementById("betscsgoDomen").value;
+      localStorage["betscsgoLink"] = betscsgoLink;
     });
     //alert("Выберите сервис для ставок");
     $('#startBetsCSGO').click(function() {
