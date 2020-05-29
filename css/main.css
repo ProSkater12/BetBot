@@ -1,76 +1,75 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
 /* общие стили */
-body, html{
+body, html {
   background-color: #f2f2f2;
   font-family: "Roboto";
   font-weight: 300;
   font-size: 16px;
   color: #555;
-
   background: url(/image/background2.png) no-repeat;
   background-color: #d6d6d6;
   /*margin-top: 70px;*/
 }
 
 /* цвет для всех ссылок */
-a{
+a {
   color: #f85c37
 }
 
 /* меняем цвет при наведении на ссылку и при нажатии */
-a:hover, a:focus{
+a:hover, a:focus {
   color: #7b7b7b;
   text-decoration: none;
 }
 
 span {
-   font-weight: 300;
-   color: #f58220;
-	}
+  font-weight: 300;
+  color: #f58220;
+}
 
-  .hint{
-    color: gray;
-    font-size: 10px;
-  }
+.hint {
+  color: gray;
+  font-size: 10px;
+}
 
-  span .predictions{
-    color: white;
-  }
+span .predictions {
+  color: white;
+}
 
-	.mlogin {
-   margin: 170px auto 0;
-	}
+.mlogin {
+  margin: 170px auto 0;
+}
 
-	.mregister {
+.mregister {
   margin: 80px auto 0;
-	}
+}
 
-	.error {
-   margin: 40px auto 0;
-	border: 1px solid #777;
- padding: 3px;
-	color: #fff;
-   text-align: center;
- width: 650px;
- background: #f58220;
-	}
+.error {
+  margin: 40px auto 0;
+  border: 1px solid #777;
+  padding: 3px;
+  color: #fff;
+  text-align: center;
+  width: 650px;
+  background: #f58220;
+}
 
-	.regtext {
-   font-size: 13px;
-   margin-top: 26px;
-   color: #777;
-	}
-  /* Контейнеры */
+.regtext {
+  font-size: 13px;
+  margin-top: 26px;
+  color: #777;
+}
 
-  #welcome {
-width: 500px;
-padding: 30px;
-background: #fff;
-margin: 160px auto 0;
--webkit-box-shadow: 0 1px 3px rgba(0,0,0,.13);
--moz-box-shadow: 0 1px 3px rgba(0,0,0,.13);
- box-shadow: 0 1px 3px rgba(0,0,0,.13);
+/* Контейнеры */
+#welcome {
+  width: 500px;
+  padding: 30px;
+  background: #fff;
+  margin: 160px auto 0;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .13);
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .13);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .13);
 }
 
 /* Style tab links */
@@ -99,21 +98,37 @@ margin: 160px auto 0;
   height: 100%;
 }
 
-#Home {background-color: white;}
-#News {background-color: white;}
-#Contact {background-color: white;}
-#About {background-color: white;}
+#Home {
+  background-color: white;
+}
+
+#News {
+  background-color: white;
+}
+
+#Contact {
+  background-color: white;
+}
+
+#About {
+  background-color: white;
+}
 
 .prokrutka {
-  height: 700px; /* высота нашего блока */
-  width: 500px; /* ширина нашего блока */
+  height: 700px;
+  /* высота нашего блока */
+  width: 500px;
+  /* ширина нашего блока */
   background: #fff;
-  overflow-x: scroll; /* прокрутка по горизонтали */
-  overflow-y: scroll; /* прокрутка по вертикали */
+  overflow-x: scroll;
+  /* прокрутка по горизонтали */
+  overflow-y: scroll;
+  /* прокрутка по вертикали */
 }
 
 .featurette-divider {
-  margin: 80px 0; /* <hr> between each */
+  margin: 80px 0;
+  /* <hr> between each */
 }
 
 /* ---------------СЛАЙДЕРЫ ----------------*/
@@ -175,7 +190,7 @@ margin: 160px auto 0;
   position: absolute;
   background-color: #f1f1f1;
   min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
 
@@ -188,14 +203,16 @@ margin: 160px auto 0;
 }
 
 /* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #ddd}
+.dropdown-content a:hover {
+  background-color: #ddd
+}
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-.show {display:block;}
+.show {
+  display: block;
+}
 
 /*------------КОНТЕЙНЕРЫ ---------------*/
-
-
 .container {
   max-width: 1760px;
   padding-right: 15px;
@@ -261,11 +278,11 @@ margin: 160px auto 0;
 }
 
 .navbar-custom {
-    background-color: #101010;
-    /*border-bottom: 1px outset white;*/
+  background-color: #101010;
+  /*border-bottom: 1px outset white;*/
 }
 
-.number-custom{
+.number-custom {
   margin-right: 5px;
 }
 
@@ -297,141 +314,291 @@ margin: 160px auto 0;
 /*= КНОПКИ
 --------------------------------------------------------*/
 .btn {
-  border: none; /* Remove borders */
-  color: white; /* Add a text color */
-  padding: 14px 28px; /* Add some padding */
+  border: none;
+  /* Remove borders */
+  color: white;
+  /* Add a text color */
+  padding: 14px 28px;
+  /* Add some padding */
   margin-bottom: 10px;
-  cursor: pointer; /* Add a pointer cursor on mouse-over */
+  cursor: pointer;
+  /* Add a pointer cursor on mouse-over */
 }
 
-.success {background-color: #4CAF50;} /* Green */
-.success:hover {background-color: #46a049;}
-
-.button{
-border: solid 1px #da7c0c;
-background: #f78d1d;
-background: -webkit-gradient(linear, left top, leftbottom, from(#faa51a), to(#f47a20));
-background: -moz-linear-gradient(top,  #faa51a, #f47a20);
-filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#faa51a', endColorstr='#f47a20');
- color: #fff;
-padding: 7px 12px;
--webkit-border-radius:4px;
-moz-border-radius:4px;
-border-radius:4px;
-float: right;
-cursor: pointer;
+.success {
+  background-color: #4CAF50;
 }
 
-.button:hover{
-background: #f47c20;
-background: -webkit-gradient(linear, left top, leftbottom, from(#f88e11), to(#f06015));
-background: -moz-linear-gradient(top,  #f88e11, #f06015);
-filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015');
+/* Green */
+.success:hover {
+  background-color: #46a049;
+}
+
+.button {
+  border: solid 1px #da7c0c;
+  background: #f78d1d;
+  background: -webkit-gradient(linear, left top, leftbottom, from(#faa51a), to(#f47a20));
+  background: -moz-linear-gradient(top, #faa51a, #f47a20);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#faa51a', endColorstr='#f47a20');
+  color: #fff;
+  padding: 7px 12px;
+  -webkit-border-radius: 4px;
+  moz-border-radius: 4px;
+  border-radius: 4px;
+  float: right;
+  cursor: pointer;
+}
+
+.button:hover {
+  background: #f47c20;
+  background: -webkit-gradient(linear, left top, leftbottom, from(#f88e11), to(#f06015));
+  background: -moz-linear-gradient(top, #f88e11, #f06015);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015');
 }
 
 /* Модальное окно*/
 .modal-window {
-  	margin: auto;
-    width: 400px;
-  	background-color: #eaeae6;
-    padding: 30px 30px;
-    margin-top: 200px
+  margin: auto;
+  width: 400px;
+  background-color: #eaeae6;
+  padding: 30px 30px;
+  margin-top: 200px
+}
+
+.modal-container {
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.krest-modal {
+  float: right;
+  cursor: pointer;
+  margin-top: -25px;
+  margin-right: -25px;
+}
+
+.modal-container input {
+  width: 100%;
+}
+
+.modal-container span {
+  font-size: 15px;
+  color: black;
+}
+
+.modal-container h3 {
+  color: black;
+}
+
+/*Spinner*/
+.waiter{
+  margin: auto;
+  padding: 30px 30px;
+  margin-top: 20%;
+  margin-left: 45%;
+  margin-right: 45%;
+}
+
+.waiter button{
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.wait_spinner {
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin-left: 18px;
+}
+
+.lds-ellipsis div {
+  position: absolute;
+  top: 33px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #fff;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+
+.lds-ellipsis div:nth-child(1) {
+  left: 8px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(2) {
+  left: 8px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(3) {
+  left: 32px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(4) {
+  left: 56px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+
+/*Иконки*/
+.info_ic img {
+  width: 25px;
+  height: auto;
+}
+
+.info_ic {
+  margin-left: 5px;
+  margin-right: 5px;
+  display: inline-block; /* Строчно-блочный элемент */
+    position: relative; /* Относительное позиционирование */
+}
+
+.info_ic:hover::after {
+  content: attr(data-title); /* Выводим текст */
+     position: absolute; /* Абсолютное позиционирование */
+     left: 20%; top: 30%; /* Положение подсказки */
+     z-index: 1; /* Отображаем подсказку поверх других элементов */
+     background: rgba(244,244,244,0.9); /* Полупрозрачный цвет фона */
+     font-family: Arial, sans-serif; /* Гарнитура шрифта */
+     font-size: 11px; /* Размер текста подсказки */
+     padding: 5px 10px; /* Поля */
+     border: 1px solid #333; /* Параметры рамки */
+     width: 150px;
+}
+
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
   }
 
-  .modal-container{
-  	position: fixed;
-    top: 0px;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.7);
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
   }
 
-  .krest-modal{
-		float: right;
-        cursor: pointer;
-        margin-top:-25px;
-        margin-right:-25px;
-	}
+  100% {
+    transform: scale(0);
+  }
+}
 
-  .modal-container input{
-    width: 100%;
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
   }
 
-  .modal-container span{
-    font-size: 15px;
-    color: black;
+  100% {
+    transform: translate(24px, 0);
   }
+}
 
-  .modal-container h3{
-    color: black;
-  }
 /*= ПОДВАЛ
 --------------------------------------------------------*/
 footer {
-color: #777;
-font-size: 12px;
-text-align: center;
-margin-top: 20px;
+  color: #777;
+  font-size: 12px;
+  text-align: center;
+  margin-top: 20px;
 }
 
 /* скрываем чекбоксы и блоки с содержанием */
 .hide,
-.hide + label ~ div {
-    display: none;
+.hide+label~div {
+  display: none;
 }
+
 /* вид текста label */
-.hide + label {
-    margin: 0;
-    padding: 0;
-    color: green;
-    cursor: pointer;
-    display: inline-block;
+.hide+label {
+  margin: 0;
+  padding: 0;
+  color: green;
+  cursor: pointer;
+  display: inline-block;
 }
+
 /* вид текста label при активном переключателе */
-.hide:checked + label {
-    color: red;
-    border-bottom: 0;
+.hide:checked+label {
+  color: red;
+  border-bottom: 0;
 }
+
 /* когда чекбокс активен показываем блоки с содержанием  */
-.hide:checked + label + div {
-    display: block;
-    margin-left: 20px;
-    padding: 10px;
-    /* чуточку анимации при появлении */
-     -webkit-animation:fade ease-in 0.5s;
-     -moz-animation:fade ease-in 0.5s;
-     animation:fade ease-in 0.5s;
+.hide:checked+label+div {
+  display: block;
+  margin-left: 20px;
+  padding: 10px;
+  /* чуточку анимации при появлении */
+  -webkit-animation: fade ease-in 0.5s;
+  -moz-animation: fade ease-in 0.5s;
+  animation: fade ease-in 0.5s;
 }
+
 /* анимация при появлении скрытых блоков */
 @-moz-keyframes fade {
-    from { opacity: 0; }
-to { opacity: 1 }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1
+  }
 }
+
 @-webkit-keyframes fade {
-    from { opacity: 0; }
-to { opacity: 1 }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1
+  }
 }
+
 @keyframes fade {
-    from { opacity: 0; }
-to { opacity: 1 }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1
+  }
 }
-.hide + label:before {
-    background-color: #1e90ff;
-    color: #fff;
-    content: "\002B";
-    display: block;
-    float: left;
-    font-size: 14px;
-    font-weight: bold;
-    height: 16px;
-    line-height: 16px;
-    margin: 3px 5px;
-    text-align: center;
-    width: 16px;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    border-radius: 50%;
+
+.hide+label:before {
+  background-color: #1e90ff;
+  color: #fff;
+  content: "\002B";
+  display: block;
+  float: left;
+  font-size: 14px;
+  font-weight: bold;
+  height: 16px;
+  line-height: 16px;
+  margin: 3px 5px;
+  text-align: center;
+  width: 16px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
 }
-.hide:checked + label:before {
-    content: "\2212";
+
+.hide:checked+label:before {
+  content: "\2212";
 }
