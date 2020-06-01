@@ -449,14 +449,14 @@
     var firstNameRegEx = new RegExp(firstNameFromBets);
     var secondNameRegEx = new RegExp(secondNameFromBets);
 
-    if(firstNameFromBets == 'BOOT-dS') firstNameFromBets = 'BOOT-d[S]';
-		if(secondNameFromBets == 'BOOT-dS') secondNameFromBets = 'BOOT-d[S]';
-    if(firstNameFromBets == 'Vega') firstNameFromBets = 'Vega squadron';
-		if(secondNameFromBets == 'Vega') secondNameFromBets = 'Vega squadron';
-    if(firstNameFromBets == 'Team Reapers') firstNameFromBets = 'reapers';
-		if(secondNameFromBets == 'Team Reapers') secondNameFromBets = 'reapers';
-    if(firstNameFromBets == 'VP') firstNameFromBets = 'Virtus.pro';
-		if(secondNameFromBets == 'VP') secondNameFromBets = 'Virtus.pro';
+    if (firstNameFromBets == 'BOOT-dS') firstNameFromBets = 'BOOT-d[S]';
+    if (secondNameFromBets == 'BOOT-dS') secondNameFromBets = 'BOOT-d[S]';
+    if (firstNameFromBets == 'Vega') firstNameFromBets = 'Vega squadron';
+    if (secondNameFromBets == 'Vega') secondNameFromBets = 'Vega squadron';
+    if (firstNameFromBets == 'Team Reapers') firstNameFromBets = 'reapers';
+    if (secondNameFromBets == 'Team Reapers') secondNameFromBets = 'reapers';
+    if (firstNameFromBets == 'VP') firstNameFromBets = 'Virtus.pro';
+    if (secondNameFromBets == 'VP') secondNameFromBets = 'Virtus.pro';
 
     firstNameFromBets = firstNameFromBets.toLowerCase();
     secondNameFromBets = secondNameFromBets.toLowerCase();
@@ -510,29 +510,30 @@
           return 0;
         }
         /*1 ajax запрос - вычисляем 1 коэффицент, head-to-head*/
-        $.ajax({url: Array[consilienceIndex * 2],
-                error: function() {
-                  alert('Жопа');
-                }
-              }).done(function(data) {
+        $.ajax({
+          url: Array[consilienceIndex * 2],
+          error: function() {
+            alert('Жопа');
+          }
+        }).done(function(data) {
           console.log(data);
           gamesNum = FindGamesLength(data);
-          //addInfo(match_id, "format", "BO" + gamesNum);
+          addInfo(match_id, "format", "BO" + gamesNum);
           LogText("Формат игры - BO" + gamesNum);
 
           matchStats.teamsName = SearchNames(data);
           console.log(matchStats.teamsName);
 
           firstHeadToHead = HeadToHead(data);
-          //addInfo(match_id, "first_value", firstHeadToHead);
+          addInfo(match_id, "first_value", firstHeadToHead);
           console.log('мне передался из функции 1 коэффицент = ' + firstHeadToHead);
           LogText("1 коэффициент - " + firstHeadToHead);
 
           //Ищем коэффицент выигрыша если поставим на 1 или 2 команду
           winningKoef1 = SearchWinKoef(data, 0);
           winningKoef2 = SearchWinKoef(data, 2);
-          //addInfo(match_id, "bet_value1", winningKoef1);
-          //addInfo(match_id, "bet_value2", winningKoef2);
+          addInfo(match_id, "bet_value1", winningKoef1);
+          addInfo(match_id, "bet_value2", winningKoef2);
           console.log(winningKoef1 + ' ' + winningKoef2);
 
           /*Вычисляем 2 коэффициент. Находим кол-во прошлых игр у 1 и 2 команды по отдельности,
@@ -558,7 +559,7 @@
               async: false
             }).done(function(data) {
               PastMatchesMass[j] = FindRating(data);
-              //addInfo(match_id, (j + 1) + "game", CalculateRating(PastMatchesMass[j], scoreMass1[j]));
+              addInfo(match_id, (j + 1) + "game", CalculateRating(PastMatchesMass[j], scoreMass1[j]));
               console.log('Рейтинг ' + (j + 1) + ' команды (для 1 команды) ' + PastMatchesMass[j]);
               secondPastMatches1 += CalculateRating(PastMatchesMass[j], scoreMass1[j]);
             })
@@ -571,7 +572,7 @@
               async: false
             }).done(function(data) {
               PastMatchesMass[j] = FindRating(data);
-              //addInfo(match_id, (j + 1) + "game", CalculateRating(PastMatchesMass[j], scoreMass2[j]));
+              addInfo(match_id, (j + 1) + "game", CalculateRating(PastMatchesMass[j], scoreMass2[j]));
               console.log('Рейтинг ' + (j + 1 - gamesValue1) + ' команды (для 2 команды) ' + PastMatchesMass[j]);
               secondPastMatches2 += CalculateRating(PastMatchesMass[j], scoreMass2[j]);
             })
@@ -582,7 +583,7 @@
           LogText("2-ой коэффицент = " + secondValue);
 
           thirdMapStats = MapStats(data);
-          //addInfo(match_id, "third_value", thirdMapStats);
+          addInfo(match_id, "third_value", thirdMapStats);
 
           console.log('мне передался из функции 3 коэффицент = ' + thirdMapStats);
           LogText("3-ий коэффицент = " + thirdMapStats);
@@ -760,13 +761,13 @@
     let i = 1;
 
     //На первый матч ставим тайм аут. После него матч начнет анализироваться
-      setTimeout(() => {
-        addMatchLine("betscsgo", matches[0].id, matches[0].firstTeam, matches[0].secondTeam);
-        parserHLTV(matches[0].firstTeam, matches[0].secondTeam, matches[0].id, token, money);
-      }, delay);
-      delay += 20000; //Прибавляем 20 сек к задержке
+    setTimeout(() => {
+      addMatchLine("betscsgo", matches[0].id, matches[0].firstTeam, matches[0].secondTeam);
+      parserHLTV(matches[0].firstTeam, matches[0].secondTeam, matches[0].id, token, money);
+    }, delay);
+    delay += 20000; //Прибавляем 20 сек к задержке
     //Если время следующих матчей совпадает или отличается менее чем на 15 мин, делаем тайм аут и на них тоже
-    while((matches[0].time + (60 * 15)) > matches[i].time){
+    while ((matches[0].time + (60 * 15)) > matches[i].time) {
       LogText("Нашли матч с похожим временем:" + matches[i].firstTeam + " vs " + matches[i].secondTeam + " Поставим на него тоже");
       betNum.unshift(i);
       setTimeout(() => {
@@ -779,7 +780,7 @@
     }
     //Запускаем старую функцию, когда до следующего матча останется 15 минут
     setTimeout(() => {
-      switch(service) {
+      switch (service) {
         case 0:
           ChooseBetsCSGO(null);
           break;
@@ -787,16 +788,16 @@
     }, ((matches[i].time - currentDate) * 1000) - (1000 * 60 * 15));
   }
 
-//Функция для рефакторинга времени. Возвращает строку вида HH часов MM минут SS секунд
-  function makeTimeReadable(time){
+  //Функция для рефакторинга времени. Возвращает строку вида HH часов MM минут SS секунд
+  function makeTimeReadable(time) {
     let finalString = '';
     let minutes = 0;
     let hours = 0;
-    if(time > 3600){
+    if (time > 3600) {
       finalString += Math.trunc(time / 3600) + " часов ";
       time = time - (Math.trunc(time / 3600) * 3600);
     }
-    if(time > 60){
+    if (time > 60) {
       finalString += Math.trunc(time / 60) + " минут ";
       time = time - (Math.trunc(time / 60) * 60);
     }
@@ -1118,6 +1119,29 @@ toggle between hiding and showing the dropdown content */
           alert('Расширение не сможет работать.');
         }
       });
+    });
+    $('#Koef').click(() => {
+
+      $.ajax({
+        url: betscsgoLink,
+        dataType: 'text',
+        error: function() {
+          LogText('Не получилось загрузить данные. ');
+        },
+      }).done(function(data) {
+        //console.log(data);
+        //let matches_json = JSON.parse(data.match(/_bets\.populateBets(.+);/));
+        let matches_json = /bets\.populateBets(.+);/.exec(data);
+        let raw_json = matches_json[1].substring(1, matches_json[1].length - 1);
+
+        let raw_fee = /u_fee_reduce(.+);/.exec(data);
+        let fee_reduce = raw_fee[1].substring(raw_fee[1].length - 4, raw_fee[1].length);
+
+        console.log(data);
+        console.log(fee_reduce);
+        console.log(JSON.parse(raw_json));
+      });
+
     });
   });
 })(jQuery);
