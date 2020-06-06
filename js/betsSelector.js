@@ -443,21 +443,6 @@
     var firstNameFromBets = String(firstNameFromBets);
     var secondNameFromBets = String(secondNameFromBets);
 
-    if (firstNameFromBets == 'sj gaming') firstNameFromBets = 'sj';
-    if (secondNameFromBets == 'sj gaming') secondNameFromBets = 'sj';
-
-    var firstNameRegEx = new RegExp(firstNameFromBets);
-    var secondNameRegEx = new RegExp(secondNameFromBets);
-
-    if (firstNameFromBets == 'BOOT-dS') firstNameFromBets = 'BOOT-d[S]';
-    if (secondNameFromBets == 'BOOT-dS') secondNameFromBets = 'BOOT-d[S]';
-    if (firstNameFromBets == 'Vega') firstNameFromBets = 'Vega squadron';
-    if (secondNameFromBets == 'Vega') secondNameFromBets = 'Vega squadron';
-    if (firstNameFromBets == 'Team Reapers') firstNameFromBets = 'reapers';
-    if (secondNameFromBets == 'Team Reapers') secondNameFromBets = 'reapers';
-    if (firstNameFromBets == 'VP') firstNameFromBets = 'Virtus.pro';
-    if (secondNameFromBets == 'VP') secondNameFromBets = 'Virtus.pro';
-
     firstNameFromBets = firstNameFromBets.toLowerCase();
     secondNameFromBets = secondNameFromBets.toLowerCase();
 
@@ -482,6 +467,10 @@
         })
         console.log('iterations = ' + iterations + ' i = ' + i);
         console.log('Переданы имена команд - ' + firstNameFromBets + ' vs ' + secondNameFromBets);
+
+        var firstNameRegEx;
+        var secondNameRegEx;
+
         for (i = 0; i < iterations && i < 30; i++) {
           try {
             ArrayNames1[i] = $(data).find('.match-day .table .team')[2 * i].innerText;
@@ -494,7 +483,11 @@
             ArrayNames1[i] = '';
             ArrayNames2[i] = '';
           }
-          if ((firstNameRegEx.exec(ArrayNames1[i]) != null) && (secondNameRegEx.exec(ArrayNames2[i]) != null) || (firstNameFromBets == ArrayNames1[i] && secondNameFromBets == ArrayNames2[i])) {
+
+          firstNameRegEx = new RegExp(ArrayNames1[i].toLowerCase());
+          secondNameRegEx = new RegExp(ArrayNames2[i].toLowerCase());
+
+          if ((firstNameRegEx.exec(firstNameFromBets) != null) && (secondNameRegEx.exec(secondNameFromBets) != null) || (firstNameFromBets == ArrayNames1[i] && secondNameFromBets == ArrayNames2[i])) {
             consilienceIndex = i;
             i = iterations;
           }
@@ -732,6 +725,9 @@
             matches[0].secondTeam = finalNameRegEx.exec(matches[0].secondTeam);
           }
           console.log(matches[0]);
+          //Переименовываем команды, чтобы соответствовать hltv
+          matches[0].firstTeam = rewriteName(matches[0].firstTeam);
+          matches[0].secondTeam = rewriteName(matches[0].secondTeam);
 
           i++;
         }
@@ -806,48 +802,33 @@
 
   /*Функция для отправки запроса на наш сервер. Создаем запись.
   Передаем название сервиса для ставок, id матча, имена команд*/
-  function addMatchLine(service, matchID, firstTeamName, secondTeamName) {
-    request = new XMLHttpRequest();
-    let request_body = "service=" + service + "&matchID=" + matchID + "&names=" + firstTeamName + "_vs_" + secondTeamName + "&token=" + window.ownSessionToken;
-    request.open("GET", "http://bet-bot.ru.com/php/addMatchLine.php?" + request_body, false);
-    request.send();
-    request.onreadystatechange = reqAddMatchStatusChange();
-    //request.abort();
+  async function addMatchLine(service, matchID, firstTeamName, secondTeamName) {
+    let request_body = service + "&matchID=" + matchID + "&names=" + firstTeamName + " vs " + secondTeamName + "&token=" + window.ownSessionToken;
+    let response = await fetch('http://bet-bot.ru.com/php/addMatchLine.php?service=' + request_body, {
+      method: 'GET',
+    });
+
+    if(response.ok){
+      console.log("Матч добавлен на сервер");
+    }
+    else{
+      console.log("Не удалось добавить матч. Ошибка HTTP: " + response.status);
+    }
   }
 
   /*Функция для добавления информации к записи матча на сервере. Принимает на вход id матча, колонку куда заносим информацию
   и саму информацию. Отправляем на наш сервер*/
-  function addInfo(matchID, infoCol, info) {
-    request = new XMLHttpRequest();
+  async function addInfo(matchID, infoCol, info) {
     let request_body = "matchID=" + matchID + "&col=" + infoCol + "&info=" + info + "&token=" + window.ownSessionToken;
-    request.open("GET", "http://bet-bot.ru.com/php/addInfo.php?" + request_body, true);
-    request.send();
-    request.onreadystatechange = reqAddInfoStatusChange();
-    //request.abort();
-  }
+    let response = await fetch("http://bet-bot.ru.com/php/addInfo.php?" + request_body, {
+      method: 'GET',
+    });
 
-  /*Происходит когда меняется статус запроса addMatchLine. Закрываем запрос*/
-  function reqAddMatchStatusChange() {
-    if (request.readyState == 4) {
-      let status = request.status;
-      if (status == 200) {
-        //document.getElementById("output").innerHTML=request.responseText;
-        //$('#resultbox').html(request.responseText);
-        request.abort();
-        console.log("Матч добавлен на сервер");
-      }
+    if(response.ok){
+      console.log("Матч добавлен на сервер");
     }
-  }
-
-  function reqAddInfoStatusChange() {
-    if (request.readyState == 4) {
-      let status = request.status;
-      if (status == 200) {
-        //document.getElementById("output").innerHTML=request.responseText;
-        //$('#resultbox').html(request.responseText);
-        request.abort();
-        console.log("Инфа добавлена на сервер");
-      }
+    else{
+      console.log("Не удалось добавить информацию на сервер. Ошибка HTTP: " + response.status);
     }
   }
 
@@ -988,6 +969,18 @@ toggle between hiding and showing the dropdown content */
         //console.log("Матч добавлен на сервер");
       }
     }
+  }
+
+  //Исправление имени команды на то, что на хлтв
+  function rewriteName(name) {
+
+    if (name == 'BOOT-dS') return 'BOOT-d[S]';
+    if (name == 'Vega') return 'Vega squadron';
+    if (name == 'Team Reapers') return 'reapers';
+    if (name == 'VP') return 'Virtus.pro';
+    if (name == 'sj gaming') return 'sj';
+
+    return name;
   }
 
   $(function() {
@@ -1142,6 +1135,14 @@ toggle between hiding and showing the dropdown content */
         console.log(JSON.parse(raw_json));
       });
 
+    });
+    $('#MyBets').click(() => {
+      $.ajax({
+        url: 'https://www.hltv.org/results',
+        dataType: 'text',
+      }).done(function(data) {
+        console.log(data);
+      });
     });
   });
 })(jQuery);
