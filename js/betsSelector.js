@@ -7,6 +7,8 @@
       secondTeam: '',
       time: 0,
       id: 0,
+      coef1: 1.3,
+      coef2: 1.3
     }
   }
   /*Глобальные переменные*/
@@ -683,6 +685,13 @@
         },
       }).done(function(data) {
         LogText("Сайт успешно загружен. Получаем список игр (Снизу самые ближайшие). Время: " + logsDate);
+        //Для расчета коэффициента матча
+        let matches_json = /bets\.populateBets(.+);/.exec(data);
+        let raw_json = matches_json[1].substring(1, matches_json[1].length - 1);
+
+        let raw_fee = /u_fee_reduce(.+);/.exec(data);
+        let fee_reduce = raw_fee[1].substring(raw_fee[1].length - 4, raw_fee[1].length);
+
         //alert('Загружен betscsgo');
         money = Number(moneyRegEx.exec(data));
         ArrayWithMatchID = matchIdRegEx.exec(data);
@@ -729,6 +738,9 @@
           matches[0].firstTeam = rewriteName(matches[0].firstTeam);
           matches[0].secondTeam = rewriteName(matches[0].secondTeam);
 
+          //Просчитываем коэффициенты для каждой команды
+
+
           i++;
         }
 
@@ -746,6 +758,11 @@
     } else {
       LogText("Что-то пошло не так. Нажмите кнопку 'Войти' и выполните вход в систему через Steam. Время: " + logsDate);
     }
+  }
+
+  //Функция для просчета коэффициента для команды на betsCSGO
+  function calculateCoefs(match, fee){
+
   }
 
   /*Функция для планировки ставок. В конце работы запускает запрашивающую функцию снова*/
@@ -803,7 +820,7 @@
   /*Функция для отправки запроса на наш сервер. Создаем запись.
   Передаем название сервиса для ставок, id матча, имена команд*/
   async function addMatchLine(service, matchID, firstTeamName, secondTeamName) {
-    let request_body = service + "&matchID=" + matchID + "&names=" + firstTeamName + " vs " + secondTeamName + "&token=" + window.ownSessionToken;
+    let request_body = service + "&matchID=" + matchID + "&name1=" + firstTeamName + "&name2=" + secondTeamName + "&token=" + window.ownSessionToken;
     let response = await fetch('http://bet-bot.ru.com/php/addMatchLine.php?service=' + request_body, {
       method: 'GET',
     });
@@ -979,6 +996,7 @@ toggle between hiding and showing the dropdown content */
     if (name == 'Team Reapers') return 'reapers';
     if (name == 'VP') return 'Virtus.pro';
     if (name == 'sj gaming') return 'sj';
+    if (name == 'coL') return 'Complexity';
 
     return name;
   }
@@ -1010,19 +1028,28 @@ toggle between hiding and showing the dropdown content */
 
     /*--------Главное меню --------------*/
     $('#defaultOpen').click(function() {
-      openPage('Home', this, 'green');
+      openPage('Home', this, '#777777');
     });
     $('#tabLink2').click(function() {
-      openPage('News', this, 'green');
+      openPage('News', this, '#777777');
     });
     $('#tabLink3').click(function() {
-      openPage('Contact', this, 'green');
+      openPage('Contact', this, '#777777');
     });
     $('#tabLink4').click(function() {
-      openPage('About', this, 'green');
+      openPage('About', this, '#777777');
     });
     // Get the element with id="defaultOpen" and click on it
     document.getElementById("defaultOpen").click();
+
+    /*-----------------Проверка результатов------------------------*/
+    //В бесконечном потоке проверяем результаты наших ставок
+    let resultTimer = setTimeout(function resultTick() {
+      if(document.getElementById("predictions").innerHTML){
+        let resultRequest = fetch('http://bet-bot.ru.com/load_results_user?token=' + window.ownSessionToken).then(response => console.log(response.text()));
+      }
+      resultTimer = setTimeout(resultTick, 60000);
+    }, 1000);
 
     /*-----------------Слайдер мультипликатора---------------------*/
     var slider = document.getElementById("Multiplicator");
@@ -1113,9 +1140,9 @@ toggle between hiding and showing the dropdown content */
         }
       });
     });
-    $('#Koef').click(() => {
+    $('#Koef').click(function() {
 
-      $.ajax({
+      /*$.ajax({
         url: betscsgoLink,
         dataType: 'text',
         error: function() {
@@ -1133,16 +1160,15 @@ toggle between hiding and showing the dropdown content */
         console.log(data);
         console.log(fee_reduce);
         console.log(JSON.parse(raw_json));
-      });
+      });*/
 
     });
-    $('#MyBets').click(() => {
-      $.ajax({
-        url: 'https://www.hltv.org/results',
-        dataType: 'text',
-      }).done(function(data) {
-        console.log(data);
-      });
-    });
+
+    /*Виджеты для VK*/
+    //Окно с чатом
+    VK.Widgets.CommunityMessages("vk_community_messages", 191024111, {tooltipButtonText: "Есть вопрос?"});
+    //Комментарии
+    VK.init({apiId: 7519155, onlyWidgets: true});
+    VK.Widgets.Comments("vk_comments", {limit: 10, attach: "*"});
   });
 })(jQuery);

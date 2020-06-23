@@ -2,12 +2,12 @@
 
 /* общие стили */
 body, html {
-  background-color: #f2f2f2;
+  background-color: #26262c;
   font-family: "Roboto";
   font-weight: 300;
   font-size: 16px;
   color: #555;
-  background: url(/image/background2.png) no-repeat;
+  background-image: url(/image/bg-uzor.png);
   background-color: #d6d6d6;
   /*margin-top: 70px;*/
 }
@@ -74,7 +74,7 @@ span .predictions {
 
 /* Style tab links */
 .tablink {
-  background-color: #4CAF50;
+  background-color: #343a40;
   color: white;
   float: left;
   border: none;
@@ -217,7 +217,7 @@ span .predictions {
   max-width: 1760px;
   padding-right: 15px;
   padding-left: 15px;
-  margin-top: 150px;
+  margin-top: 40px;
   margin-right: 80px;
   margin-left: 80px;
 }

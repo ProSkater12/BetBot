@@ -15,11 +15,17 @@
   <script type="text/javascript" src="/js/betsSelector.js"></script>
   <script type="text/javascript" src="/js/qunit-2.9.2.js"></script>
   <script type="text/javascript" src="/js/test.js"></script>
+
+  <!-- VK -->
+  <!-- Put this script tag to the <head> of your page -->
+  <script type="text/javascript" src="https://vk.com/js/api/openapi.js?168"></script>
+
+  <meta http-equiv="Content-Security-Policy" content="script-src-elem 'unsafe-inline' https://vk.com/js/api/openapi.js">
 </head>
 
 <body>
   <!-- NavBar-------------->
-  <nav class="navbar navbar-expand-sm navbar-dark navbar-custom">
+  <nav class="navbar navbar-expand-sm navbar-dark navbar-custom bg-dark">
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
       <!-- Links -->
       <ul class="navbar-nav mr-auto">
@@ -30,8 +36,7 @@
         </li> -->
         <li class="nav-item">
           <a class="navbar-brand" href="#">
-            <img src="image/logo.png" alt="Logo">
-            <font font-weight="lighter">BetBot</font>
+            <img src="image/logo2.png" alt="Logo" style="width: 50%; height:auto;">
           </a>
         </li>
         <!--<li class="nav-item">
@@ -50,8 +55,8 @@
             <font color="white">Осталось прогнозов: <span id="predictions" class='predictions'></span></font>
           </span>
         </div>
-        <input id="BuyPredicts" type="submit" class="btn btn-outline-success my-2 my-sm-0" value="Купить прогнозы">
-        <input id="SteamAuth" button class="btn btn-outline-success my-2 my-sm-0" type="button" value="Войти" />
+        <input id="BuyPredicts" type="submit" class="btn btn-outline-secondary my-2 my-sm-0" value="Купить прогнозы">
+        <input id="SteamAuth" button class="btn btn-outline-secondary my-2 my-sm-0" type="button" value="Войти" />
       </form>
     </div>
   </nav>
@@ -76,7 +81,6 @@
                     <h3>Просто</h3>
                     <p>Вам не нужно делать практически ничего, чтобы зарабатывать деньги</p>
                     <input id="Koef" button class="btn btn-success my-2 my-sm-0" type="button" value="Найти коеф" />
-                    <input id="MyBets" button class="btn btn-success my-2 my-sm-0" type="button" value="Глянуть свои ставки" />
                   </div>
                 </p>
               </div>
@@ -141,8 +145,8 @@
 
         <div id="Contact" class="tabcontent">
           <div class="container-custom-with-bar">
-            <h3>Contact</h3>
-            <p>Get in touch, or swing by for a cup of coffee.</p>
+            <h3>Оставь здесь свой отзыв</h3>
+            <div id="vk_comments"></div>
           </div>
         </div>
 
@@ -243,6 +247,11 @@
       <div id="qunit"></div>
       <div id="qunit-fixture"></div>
   </footer>-->
+  <script type="text/javascript" src="https://vk.com/js/api/openapi.js?168"></script>
+
+  <!-- VK Widget -->
+  <div id="vk_community_messages"></div>
+
 </body>
 <div class = "modal-container" style = "display:none;">
 	<div class = "modal-window">
