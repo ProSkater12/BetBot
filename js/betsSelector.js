@@ -997,6 +997,8 @@ toggle between hiding and showing the dropdown content */
     if (name == 'VP') return 'Virtus.pro';
     if (name == 'sj gaming') return 'sj';
     if (name == 'coL') return 'Complexity';
+    if (name == 'Na') return 'Natus Vincere';
+    if (name == 'iG') return 'Invictus';
 
     return name;
   }
@@ -1004,7 +1006,7 @@ toggle between hiding and showing the dropdown content */
   $(function() {
     //Проверяем разрешения для нашего приложения
     chrome.permissions.contains({
-      origins: ["https://betscsgo.cc/", "https://*.com/", "http://*.ru.com/", 'https://www.hltv.org/*/*']
+      origins: ["https://betscsgo.cc/", "http://bet-bot.ru.com/*", "https://www.hltv.org/*/*"]
     }, function(result) {
       if (result) {
         // The extension has the permissions.
@@ -1128,7 +1130,7 @@ toggle between hiding and showing the dropdown content */
     $('#BuyPredicts').click(BuyPredicts);
     $('#FirstLaunch').click(function() {
       chrome.permissions.request({
-        origins: ["https://betscsgo.cc/", "https://*.com/", "http://*.ru.com/", 'https://www.hltv.org/*/*']
+        origins: ["https://betscsgo.cc/", "http://bet-bot.ru.com/*", "https://www.hltv.org/*/*"]
       }, function(granted) {
         // The callback argument will be true if the user granted the permissions.
         if (granted) {

@@ -4,13 +4,13 @@
       "scripts": [ "/js/jQuery.js", "/js/betsSelector.js" ]
         },
 
-    "name": "MoneyButton",
-    "version": "2.0.4",
+    "name": "BetBot",
+    "version": "2.1.5",
     "description": "Бот для ставок CS:GO",
     "content_security_policy":"script-src 'self' 'sha256-EzJN+hhYluDa3k6nd0M2pnhdS7ZRo4VqQ36+Fb/praY=' 'unsafe-eval' https://vk.com/js/api/openapi.js; object-src 'self';",
     "permissions": [
       "storage" ],
-    "optional_permissions": ["https://betscsgo.cc/", "https://*.com/", "http://*.ru.com/", "https://www.hltv.org/*/*"],
+    "optional_permissions": ["https://betscsgo.cc/", "http://bet-bot.ru.com/*", "https://www.hltv.org/*/*"],
     "homepage_url": "http://bet-bot.ru.com/",
 
      "browser_action": {
