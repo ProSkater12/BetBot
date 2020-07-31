@@ -448,6 +448,8 @@
     firstNameFromBets = firstNameFromBets.toLowerCase();
     secondNameFromBets = secondNameFromBets.toLowerCase();
 
+    let hltvMatches = [];
+
     /*var transferredNames = firstNameFromBets + ' vs ' + secondNameFromBets;
 		transferredNames = transferredNames.toLowerCase();*/
 
@@ -461,39 +463,44 @@
     //Заходим на страну со списком матчей и заносим в массив все ссылки
     try {
       $.ajax('https://www.hltv.org/matches/').done(function(data) {
-        $(data).find('.match-day a').each(function() {
-          var name = this.innerText; //название матча
+        $(data).find('.upcomingMatch a').each(function() {
+          hltvMatches[hltvMatches.length] = this.innerHTML; //название матча
           Array[iterations] = 'https://www.hltv.org' + $(this).attr('href'); //ссылка на матч
           console.log((iterations + 1) + ' ' + 'ссылка' + ' ' + Array[iterations]);
           iterations++;
         })
+        console.log(hltvMatches.length + " кол-во матчей");
         console.log('iterations = ' + iterations + ' i = ' + i);
         console.log('Переданы имена команд - ' + firstNameFromBets + ' vs ' + secondNameFromBets);
 
         var firstNameRegEx;
         var secondNameRegEx;
 
-        for (i = 0; i < iterations && i < 30; i++) {
+        for (i = 0; i < (hltvMatches.length / 2) && i < 30; i++) {
           try {
-            ArrayNames1[i] = $(data).find('.match-day .table .team')[2 * i].innerText;
+            console.log(hltvMatches[i*2]);
+            ArrayNames1[i] = $(hltvMatches[i*2]).find('.matchTeamName.text-ellipsis')[0].innerText;
             ArrayNames1[i] = ArrayNames1[i].toLowerCase();
-            ArrayNames2[i] = $(data).find('.match-day .table .team')[(2 * i) + 1].innerText;
+            ArrayNames2[i] = $(hltvMatches[i*2]).find('.matchTeamName.text-ellipsis')[1].innerText;
             ArrayNames2[i] = ArrayNames2[i].toLowerCase();
             console.log(ArrayNames1[i] + " ArrayNames1[i] " + ArrayNames2[i] + " ArrayNames2[i]");
           } catch (e) {
-            alert();
+            //alert(e);
             ArrayNames1[i] = '';
             ArrayNames2[i] = '';
           }
 
-          firstNameRegEx = new RegExp(ArrayNames1[i].toLowerCase());
-          secondNameRegEx = new RegExp(ArrayNames2[i].toLowerCase());
 
-          if ((firstNameRegEx.exec(firstNameFromBets) != null) && (secondNameRegEx.exec(secondNameFromBets) != null) || (firstNameFromBets == ArrayNames1[i] && secondNameFromBets == ArrayNames2[i])) {
-            consilienceIndex = i;
-            i = iterations;
+          if(ArrayNames1[i] != '' && ArrayNames2[i] != ''){
+            firstNameRegEx = new RegExp(ArrayNames1[i]);
+            secondNameRegEx = new RegExp(ArrayNames2[i]);
+
+            if ((firstNameRegEx.exec(firstNameFromBets) != null) && (secondNameRegEx.exec(secondNameFromBets) != null) || (firstNameFromBets == ArrayNames1[i] && secondNameFromBets == ArrayNames2[i])) {
+              consilienceIndex = i;
+              i = iterations;
+            }
+            console.log(" Найдены совпадения по regExp? - " + ((firstNameRegEx.exec(ArrayNames1[i]) != null) && (secondNameRegEx.exec(ArrayNames2[i]) != null) || (firstNameFromBets == ArrayNames1[i] && secondNameFromBets == ArrayNames2[i])));
           }
-          console.log(" Найдены совпадения по regExp? - " + ((firstNameRegEx.exec(ArrayNames1[i]) != null) && (secondNameRegEx.exec(ArrayNames2[i]) != null) || (firstNameFromBets == ArrayNames1[i] && secondNameFromBets == ArrayNames2[i])));
         }
         console.log(consilienceIndex);
         //За один проход берем со всех матчей статистику по командам
@@ -511,7 +518,7 @@
             alert('Жопа');
           }
         }).done(function(data) {
-          console.log(data);
+          //console.log(data);
           gamesNum = FindGamesLength(data);
           addInfo(match_id, "format", "BO" + gamesNum);
           LogText("Формат игры - BO" + gamesNum);
