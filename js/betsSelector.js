@@ -18,6 +18,7 @@
   var hotfixMatchID = 0;
   var maps = ["Cache", "Dust 2", "Mirage", "Inferno", "Nuke", "Train", "Overpass"];
   var betscsgoLink = 'https://betscsgo.cc/';
+  var csgopositiveLink = 'https://csgopositive.org/';
   var maxBet = 20;
   var ajax_ready = 0; // Число, которое показывает сколько внутренних запросов матчей выполнено (чтобы понять, что мы собрали всю информацию)
   var betNum = []; // массив с матчами, на которое нужно поставить
@@ -627,6 +628,35 @@
   }
 
   ///////////////////////////////////////////////////////////////////
+  //Функция для парсинга данных с csgopositive.com
+  //и составления ссылки-запроса, по которой делается ставка
+  ///////////////////////////////////////////////////////////////////
+  function ChooseCSGOpositive(){
+    if (window.ownSessionToken != null) {
+      LogText("Начинаем работу с сервисом csgopositive.org");
+
+      $.ajax({
+        url: csgopositiveLink,
+        dataType: 'text',
+        error: function() {
+          LogText('Не получилось загрузить данные. Пробуем зайти на сайт и запустить программу снова');
+          let betsWindow = window.open(csgopositiveLink);
+          setTimeout(function() {
+            betsWindow.close();
+            ChooseCSGOpositive();
+          }, 15000);
+        },
+      }).done(function(data) {
+        LogText("Сайт успешно загружен. Получаем список игр (Снизу самые ближайшие). Время: " + logsDate);
+
+        console.log(data);
+      });
+    } else {
+      LogText("Что-то пошло не так. Нажмите кнопку 'Войти' и выполните вход в систему через Steam. Время: " + logsDate);
+    }
+  }
+
+  ///////////////////////////////////////////////////////////////////
   //Функция для парсинга данных с betscsgo.com
   //и составления ссылки-запроса, по которой делается ставка
   ///////////////////////////////////////////////////////////////////
@@ -677,7 +707,7 @@
     let matches = [];
 
     if (window.ownSessionToken != null) {
-      LogText("Начинаем работу с сервисом betsCSGO.");
+      LogText("Начинаем работу с сервисом betscsgoLink.");
       //console.log(currentDate);
       $.ajax({
         url: betscsgoLink,
@@ -859,21 +889,6 @@
   /*function ChooseParimatch(){
   	alert('Wow it s parimatch');}*/
 
-  ///////////////////////////////////////////////////////////////////////
-  //Парсер csgoPozitive. Пока не актуален
-  ///////////////////////////////////////////////////////////////////////
-  function ChooseCSGOpositive() {
-    $.ajax('https://csgopositive.com/').done(function(data) {
-      console.log(data);
-    });
-  }
-
-  function ChooseLootBet() {
-    $.ajax('https://lut.bet/sport/esports/counter-strike').done(function(data) {
-      console.log(data);
-    });
-  }
-
   //Функция, которая запускает в новом окне авторизацию на сервере. Передаем туда собственный токен сессии если мы не вошли до этого
   function Authorize() {
     let checkEnter = document.getElementById("SteamAuth");
@@ -1010,6 +1025,16 @@ toggle between hiding and showing the dropdown content */
     return name;
   }
 
+  /*Background*/
+  //слушатели
+chrome.extension.onMessage.addListener(function(request, sender, f_callback){
+  if(request.mes == "startBets"){
+    console.log('2. прошло через фон: ', request);
+
+    f_callback("ЙО"); //обратное сообщение
+  };
+});
+
   $(function() {
     //Проверяем разрешения для нашего приложения
     chrome.permissions.contains({
@@ -1107,6 +1132,9 @@ toggle between hiding and showing the dropdown content */
       }
     }
 
+    //RADIO buttons
+    let radiob1 = document.getElementById("MaxBet");
+
     /*----------Выпадающий список сервисов для ставок------------*/
     /*var drop_down = document.getElementById("myDropdown");
     var output_dropdown = document.getElementById("Bet-service-view");
@@ -1127,12 +1155,19 @@ toggle between hiding and showing the dropdown content */
       localStorage["betscsgoLink"] = betscsgoLink;
     });
     //alert("Выберите сервис для ставок");
-    $('#startBetsCSGO').click(function() {
-      ChooseBetsCSGO(null);
+    $('#startBets').click(function() {
+      let services = document.getElementsByName('exampleRadios');
+      let serviceList = [ChooseBetsCSGO(null), ChooseCSGOpositive()];
+
+      for(let i = 0; i < services.length; i++){
+        if(services[i].type == 'radio' && services[i].checked == "checked"){
+          serviceList[i];
+          return true;
+        }
+      }
+      //ChooseBetsCSGO(null);
     });
     $('#DropDown').click(DropDown);
-    $('#startPozitive').click(ChooseCSGOpositive);
-    $('#startLootBet').click(ChooseLootBet);
     $('#SteamAuth').click(Authorize);
     $('#BuyPredicts').click(BuyPredicts);
     $('#FirstLaunch').click(function() {

@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "background": {
-      "scripts": [ "/js/jQuery.js", "/js/betsSelector.js" ]
+      "scripts": [ "/js/jQuery.js", "/js/betsSelector.js", "/js/background.js" ]
         },
 
     "name": "BetBot",
@@ -9,6 +9,8 @@
     "description": "Бот для ставок CS:GO",
     "content_security_policy":"script-src 'self' 'sha256-EzJN+hhYluDa3k6nd0M2pnhdS7ZRo4VqQ36+Fb/praY=' 'unsafe-eval' https://vk.com/js/api/openapi.js; object-src 'self';",
     "permissions": [
+      "activeTab",
+      "contextMenus",
       "storage" ],
     "optional_permissions": ["https://betscsgo.cc/", "http://bet-bot.ru.com/*", "https://www.hltv.org/*/*"],
     "homepage_url": "http://bet-bot.ru.com/",

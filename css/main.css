@@ -312,6 +312,13 @@ span .predictions {
   color: white;
   text-align: center;
 }*/
+
+/* forms*/
+.form-check input{
+  height: 20px;
+  padding: 0px 10px;
+  font-size: 15px;
+}
 /*= КНОПКИ
 --------------------------------------------------------*/
 .btn {

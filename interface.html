@@ -192,28 +192,38 @@
                 <a value="LootBet">LootBet</a>
               </div>
             </div>-->
-            <div class="row">
-              <div class="col-auto">
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+            <form class="form-check">
+              <div class="row">
+                <div class="col-auto">
+
+                  <input class="form-check-input" type="radio" name="exampleRadios" id="site-name-1" value="option1" checked="checked">
                   <label class="form-check-label" for="exampleRadios1">
                     betsCSGO
                   </label>
+
+                </div>
+                <div class="col-auto">
+                  <input type="text" class="form-control" id="betscsgoDomen" placeholder="Ваш собственный домен">
+                  <span class='hint'>Установите свой домен, если сайт забанят </span>
+                </div>
+                <div class="col-auto">
+                  <input type="button" id="submitMaxBet" value="Сохранить" class="btn success">
                 </div>
               </div>
-              <div class="col-auto">
-                <input type="text" class="form-control" id="betscsgoDomen" placeholder="Ваш собственный домен">
-                <span class='hint'>Установите свой домен, если сайт забанят </span>
+              <div class="row">
+                <div class="col-auto">
+                  <input class="form-check-input" type="radio" name="exampleRadios" id="site-name-2" value="option2">
+                  <label class="form-check-label" for="exampleRadios1">
+                    csgopositive
+                  </label>
+                </div>
               </div>
-              <div class="col-auto">
-                <input type="button" id="submitMaxBet" value="Сохранить" class="btn success">
-              </div>
-            </div>
+            </form>
           </p>
 
           <!--<span>Выбранный сервис для ставок:</span>
           <span id="Bet-service-view" style="font-weight:bold;color:red">betscsgo.gg</span> -->
-          <p><button id="startBetsCSGO" class="btn success">Запустить бота</button>
+          <p><button id="startBets" class="btn success">Запустить бота</button>
         </div>
 
         <!-- Окно с логами -->
@@ -253,20 +263,25 @@
   <div id="vk_community_messages"></div>
 
 </body>
-<div class = "modal-container" style = "display:none;">
-	<div class = "modal-window">
-		<div class = "krest-modal">&#10006;</div>
-        <h3 class = "bigtitle-for-modal">Спасибо за установку нашего приложения!</h3>
-        <p><span>Вы видите это окно, потому что приложение не может загружать внешние сайты. Чтобы оно могло работать, вам нужно нажать на кнопку в этом окне и подтвердить загрузку внешних сайтов</span>
-        <p><input id="FirstLaunch" type="button" value="Дать разрешение" class="btn btn-success"/>
-	</div>
+<div class="modal-container" style="display:none;">
+  <div class="modal-window">
+    <div class="krest-modal">&#10006;</div>
+    <h3 class="bigtitle-for-modal">Спасибо за установку нашего приложения!</h3>
+    <p><span>Вы видите это окно, потому что приложение не может загружать внешние сайты. Чтобы оно могло работать, вам нужно нажать на кнопку в этом окне и подтвердить загрузку внешних сайтов</span>
+      <p><input id="FirstLaunch" type="button" value="Дать разрешение" class="btn btn-success" />
+  </div>
 </div>
 
-<div class="wait_spinner" style = "display:none;">
+<div class="wait_spinner" style="display:none;">
   <div class="waiter">
-  <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
-  <a href="#" id='spinner-btn'>Отменить вход</a>
-</div>
+    <div class="lds-ellipsis">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <a href="#" id='spinner-btn'>Отменить вход</a>
+  </div>
 </div>
 
 </html>
