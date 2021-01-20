@@ -12,7 +12,7 @@
       "activeTab",
       "contextMenus",
       "storage" ],
-    "optional_permissions": ["https://betscsgo.cc/", "http://bet-bot.ru.com/*", "https://www.hltv.org/*/*"],
+    "optional_permissions": ["https://betscsgo.in/", "https://bet-bot.ru.com/*", "https://www.hltv.org/*/*"],
     "homepage_url": "http://bet-bot.ru.com/",
 
      "browser_action": {

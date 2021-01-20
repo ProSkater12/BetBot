@@ -7,10 +7,63 @@
 
   <link href="css/bootstrap.css" rel="stylesheet" />
   <link href="css/popup.css" rel="stylesheet" />
+  <script type="text/javascript" src="/js/jQuery.js"></script>
 </head>
 <body>
   <div class="main_div">
-    <a href="interface.html" target="_blank" class="btn btn-light">Перейти в приложение</a>
+    <div>
+      <div class="col-sm-4">
+        <div class="container-custom-logs container-fluid">
+          <div class="slidecontainer">
+            <input type="range" step="0.1" min="0.1" max="10" value="3" class="slider" id="Multiplicator">
+          </div>
+          <span>Значение мультипликатора ставок:</span>
+          <span id="Multiplicator-view" style="font-weight:bold;color:red">15</span>
+          <div class="slidecontainer">
+            <input type="range" step="0.5" min="1" max="100" value="20" class="slider" id="MaxBet">
+          </div>
+          <span>Максимальная ставка:</span>
+          <span id="MaxBet-view" style="font-weight:bold;color:red">20 % от банка</span>
+
+          <p>
+            <!--<div class="dropdown">
+              <input id="DropDown" type="button" class="dropbtn" value="Выбрать сервис для ставок" />
+              <div id="myDropdown" class="dropdown-content">
+                <a value="betscsgo">betscsgo.gg</a>
+                <a value="csgopozitive">csgopozitive</a>
+                <a value="LootBet">LootBet</a>
+              </div>
+            </div>-->
+            <div class="row">
+              <div class="col-auto">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                  <label class="form-check-label" for="exampleRadios1">
+                    betsCSGO
+                  </label>
+                </div>
+              </div>
+              <div class="col-auto">
+                <input type="text" class="form-control" id="betscsgoDomen" placeholder="Ваш собственный домен">
+                <span class='hint'>Установите свой домен, если сайт забанят </span>
+              </div>
+              <div class="col-auto">
+                <input type="button" id="submitMaxBet" value="Сохранить" class="btn success">
+              </div>
+            </div>
+          </p>
+
+          <!--<span>Выбранный сервис для ставок:</span>
+          <span id="Bet-service-view" style="font-weight:bold;color:red">betscsgo.gg</span> -->
+          <p><button id="startBetsCSGO" class="btn success">Запустить бота</button>
+        </div>
+
+        <!--Конец контейнера -->
+      </div>
+    </div>
+    <a href="https://steamcommunity.com/oauth/login?response_type=&client_id=FEEECDF0610CBEA2F401298F2DD93335&state=">Войти через Steam</a>
+    <a href="interface.html" target="_blank" class="btn btn-light">Перейти в старую версию приложения</a>
   </div>
+  <script type="text/javascript" src="/js/popup.js"></script>
 </body>
 </html>

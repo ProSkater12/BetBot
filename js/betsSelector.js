@@ -11,13 +11,23 @@
       coef2: 1.3
     }
   }
+
+  //Настройки расширения
+  function getSettings() {
+    return {
+      multiplikator: document.getElementById("Multiplicator").value,
+      maxBet: document.getElementById("MaxBet").value,
+      betService: betscsgoLink
+    }
+  }
+
   /*Глобальные переменные*/
   var ownSessionToken = "";
   var multiplicator = 3;
   var logsDate = new Date();
   var hotfixMatchID = 0;
   var maps = ["Cache", "Dust 2", "Mirage", "Inferno", "Nuke", "Train", "Overpass"];
-  var betscsgoLink = 'https://betscsgo.cc/';
+  var betscsgoLink = 'https://betscsgo.in/';
   var csgopositiveLink = 'https://csgopositive.org/';
   var maxBet = 20;
   var ajax_ready = 0; // Число, которое показывает сколько внутренних запросов матчей выполнено (чтобы понять, что мы собрали всю информацию)
@@ -479,10 +489,10 @@
 
         for (i = 0; i < (hltvMatches.length / 2) && i < 30; i++) {
           try {
-            console.log(hltvMatches[i*2]);
-            ArrayNames1[i] = $(hltvMatches[i*2]).find('.matchTeamName.text-ellipsis')[0].innerText;
+            console.log(hltvMatches[i * 2]);
+            ArrayNames1[i] = $(hltvMatches[i * 2]).find('.matchTeamName.text-ellipsis')[0].innerText;
             ArrayNames1[i] = ArrayNames1[i].toLowerCase();
-            ArrayNames2[i] = $(hltvMatches[i*2]).find('.matchTeamName.text-ellipsis')[1].innerText;
+            ArrayNames2[i] = $(hltvMatches[i * 2]).find('.matchTeamName.text-ellipsis')[1].innerText;
             ArrayNames2[i] = ArrayNames2[i].toLowerCase();
             console.log(ArrayNames1[i] + " ArrayNames1[i] " + ArrayNames2[i] + " ArrayNames2[i]");
           } catch (e) {
@@ -492,15 +502,16 @@
           }
 
 
-          if(ArrayNames1[i] != '' && ArrayNames2[i] != ''){
+          if (ArrayNames1[i] != '' && ArrayNames2[i] != '') {
             firstNameRegEx = new RegExp(ArrayNames1[i]);
             secondNameRegEx = new RegExp(ArrayNames2[i]);
 
-            if ((firstNameRegEx.exec(firstNameFromBets) != null) && (secondNameRegEx.exec(secondNameFromBets) != null) || (firstNameFromBets == ArrayNames1[i] && secondNameFromBets == ArrayNames2[i])) {
+            if ((firstNameRegEx.exec(ArrayNames1[i]) != null) && (secondNameRegEx.exec(ArrayNames2[i]) != null) || (firstNameFromBets == ArrayNames1[i] && secondNameFromBets == ArrayNames2[i])) {
               consilienceIndex = i;
               i = iterations;
             }
             console.log(" Найдены совпадения по regExp? - " + ((firstNameRegEx.exec(ArrayNames1[i]) != null) && (secondNameRegEx.exec(ArrayNames2[i]) != null) || (firstNameFromBets == ArrayNames1[i] && secondNameFromBets == ArrayNames2[i])));
+            break;
           }
         }
         console.log(consilienceIndex);
@@ -594,9 +605,9 @@
 
           LogText("Информация собрана. Отправляем заявку на сервер. Время: " + logsDate);
 
-          requestBody = "name=" + matchStats.teamsName + "&firstValue=" + firstHeadToHead + "&secondValue=" + secondValue + "&thirdValue=" + thirdMapStats + "&matchID=" + match_id + "&SessionToken=" + session + "&money=" + money + "&1winkoef=" + winningKoef1 + "&2winkoef=" + winningKoef2 + "&gamesNum=" + gamesNum + "&multiplikator=" + window.multiplicator + "&maxbet=" + window.maxBet + '&url=' + betscsgoLink + '&token=' + window.ownSessionToken;
-          console.log("http://bet-bot.ru.com/calculate_bet?" + requestBody);
-          request.open("GET", "http://bet-bot.ru.com/calculate_bet?" + requestBody, false);
+          requestBody = "name=" + matchStats.teamsName + "&firstValue=" + firstHeadToHead + "&secondValue=" + secondValue + "&thirdValue=" + thirdMapStats + "&matchID=" + match_id + "&SessionToken=" + session + "&money=" + 500 + "&1winkoef=" + winningKoef1 + "&2winkoef=" + winningKoef2 + "&gamesNum=" + gamesNum + "&multiplikator=" + window.multiplicator + "&maxbet=" + window.maxBet + '&url=' + betscsgoLink + '&token=' + window.ownSessionToken;
+          console.log("https://bet-bot.ru.com/calculate_bet?" + requestBody);
+          request.open("GET", "https://bet-bot.ru.com/calculate_bet?" + requestBody, false);
           request.send();
           request.onreadystatechange = reqReadyStateChange(match_id);
           //return 0;
@@ -631,7 +642,7 @@
   //Функция для парсинга данных с csgopositive.com
   //и составления ссылки-запроса, по которой делается ставка
   ///////////////////////////////////////////////////////////////////
-  function ChooseCSGOpositive(){
+  function ChooseCSGOpositive() {
     if (window.ownSessionToken != null) {
       LogText("Начинаем работу с сервисом csgopositive.org");
 
@@ -798,7 +809,7 @@
   }
 
   //Функция для просчета коэффициента для команды на betsCSGO
-  function calculateCoefs(match, fee){
+  function calculateCoefs(match, fee) {
 
   }
 
@@ -858,14 +869,13 @@
   Передаем название сервиса для ставок, id матча, имена команд*/
   async function addMatchLine(service, matchID, firstTeamName, secondTeamName) {
     let request_body = service + "&matchID=" + matchID + "&name1=" + firstTeamName + "&name2=" + secondTeamName + "&token=" + window.ownSessionToken;
-    let response = await fetch('http://bet-bot.ru.com/php/addMatchLine.php?service=' + request_body, {
+    let response = await fetch('https://bet-bot.ru.com/php/addMatchLine.php?service=' + request_body, {
       method: 'GET',
     });
 
-    if(response.ok){
+    if (response.ok) {
       console.log("Матч добавлен на сервер");
-    }
-    else{
+    } else {
       console.log("Не удалось добавить матч. Ошибка HTTP: " + response.status);
     }
   }
@@ -874,14 +884,13 @@
   и саму информацию. Отправляем на наш сервер*/
   async function addInfo(matchID, infoCol, info) {
     let request_body = "matchID=" + matchID + "&col=" + infoCol + "&info=" + info + "&token=" + window.ownSessionToken;
-    let response = await fetch("http://bet-bot.ru.com/php/addInfo.php?" + request_body, {
+    let response = await fetch("https://bet-bot.ru.com/php/addInfo.php?" + request_body, {
       method: 'GET',
     });
 
-    if(response.ok){
+    if (response.ok) {
       console.log("Матч добавлен на сервер");
-    }
-    else{
+    } else {
       console.log("Не удалось добавить информацию на сервер. Ошибка HTTP: " + response.status);
     }
   }
@@ -898,8 +907,8 @@
         console.log("Токен успешно сохранен");
       });*/
       localStorage["ownToken"] = window.ownSessionToken;
-      console.log("http://bet-bot.ru.com/php/steamauthExtension.php?setSessionToken=" + window.ownSessionToken);
-      window.open("http://bet-bot.ru.com/php/steamauthExtension.php?setSessionToken=" + window.ownSessionToken, '_blank').focus();
+      console.log("https://bet-bot.ru.com/php/steamauthExtension.php?setSessionToken=" + window.ownSessionToken);
+      window.open("https://bet-bot.ru.com/php/steamauthExtension.php?setSessionToken=" + window.ownSessionToken, '_blank').focus();
 
       //CheckUser();
       //Показываем загрузку
@@ -943,7 +952,7 @@
 
   function BuyPredicts() {
     if (window.ownSessionToken != null) {
-      window.open("http://bet-bot.ru.com/", '_blank').focus();
+      window.open("https://bet-bot.ru.com/", '_blank').focus();
     } else {
       alert("Войдите в систему через Steam, пожалуйста");
     }
@@ -981,7 +990,7 @@ toggle between hiding and showing the dropdown content */
   function CheckUser() {
     if (window.ownSessionToken != "") {
       requestUser = new XMLHttpRequest();
-      requestUser.open("GET", "http://bet-bot.ru.com/php/checkUser.php?token=" + window.ownSessionToken, false);
+      requestUser.open("GET", "https://bet-bot.ru.com/php/checkUser.php?token=" + window.ownSessionToken, false);
       requestUser.send();
       requestUser.onreadystatechange = checkUserStatusChange();
     }
@@ -1027,18 +1036,18 @@ toggle between hiding and showing the dropdown content */
 
   /*Background*/
   //слушатели
-chrome.extension.onMessage.addListener(function(request, sender, f_callback){
-  if(request.mes == "startBets"){
-    console.log('2. прошло через фон: ', request);
+  chrome.extension.onMessage.addListener(function(request, sender, f_callback) {
+    if (request.mes == "startBets") {
+      console.log('2. прошло через фон: ', request);
 
-    f_callback("ЙО"); //обратное сообщение
-  };
-});
+      f_callback("ЙО"); //обратное сообщение
+    };
+  });
 
   $(function() {
     //Проверяем разрешения для нашего приложения
     chrome.permissions.contains({
-      origins: ["https://betscsgo.cc/", "http://bet-bot.ru.com/*", "https://www.hltv.org/*/*"]
+      origins: ["https://bet-bot.ru.com/*", "https://www.hltv.org/*/*", "https://betscsgo.in/"]
     }, function(result) {
       if (result) {
         // The extension has the permissions.
@@ -1079,11 +1088,13 @@ chrome.extension.onMessage.addListener(function(request, sender, f_callback){
     /*-----------------Проверка результатов------------------------*/
     //В бесконечном потоке проверяем результаты наших ставок
     let resultTimer = setTimeout(function resultTick() {
-      if(document.getElementById("predictions").innerHTML){
-        let resultRequest = fetch('http://bet-bot.ru.com/load_results_user?token=' + window.ownSessionToken).then(response => console.log(response.text()));
+      if (document.getElementById("predictions").innerHTML) {
+        let resultRequest = fetch('https://bet-bot.ru.com/load_results_user?token=' + window.ownSessionToken).then(response => console.log(response.text()));
       }
       resultTimer = setTimeout(resultTick, 60000);
     }, 1000);
+
+    //Мониторим настройки и меняем их, если не совпадают
 
     /*-----------------Слайдер мультипликатора---------------------*/
     var slider = document.getElementById("Multiplicator");
@@ -1157,22 +1168,26 @@ chrome.extension.onMessage.addListener(function(request, sender, f_callback){
     //alert("Выберите сервис для ставок");
     $('#startBets').click(function() {
       let services = document.getElementsByName('exampleRadios');
-      let serviceList = [ChooseBetsCSGO(null), ChooseCSGOpositive()];
+      /*let serviceList = {
+        bets: function(){ ChooseBetsCSGO(null) },
+        positive: function(){ ChooseCSGOpositive(); }
+      };*/
 
-      for(let i = 0; i < services.length; i++){
+      //for(let i = 0; i < services.length; i++){
+      /*for(let i = 0; i < Object.keys(services).length; i++){
         if(services[i].type == 'radio' && services[i].checked == "checked"){
           serviceList[i];
           return true;
         }
-      }
-      //ChooseBetsCSGO(null);
+      }*/
+      ChooseBetsCSGO(null);
     });
     $('#DropDown').click(DropDown);
     $('#SteamAuth').click(Authorize);
     $('#BuyPredicts').click(BuyPredicts);
     $('#FirstLaunch').click(function() {
       chrome.permissions.request({
-        origins: ["https://betscsgo.cc/", "http://bet-bot.ru.com/*", "https://www.hltv.org/*/*"]
+        origins: ["https://betscsgo.in/", "https://bet-bot.ru.com/*", "https://www.hltv.org/*/*"]
       }, function(granted) {
         // The callback argument will be true if the user granted the permissions.
         if (granted) {
@@ -1210,9 +1225,17 @@ chrome.extension.onMessage.addListener(function(request, sender, f_callback){
 
     /*Виджеты для VK*/
     //Окно с чатом
-    VK.Widgets.CommunityMessages("vk_community_messages", 191024111, {tooltipButtonText: "Есть вопрос?"});
+    VK.Widgets.CommunityMessages("vk_community_messages", 191024111, {
+      tooltipButtonText: "Есть вопрос?"
+    });
     //Комментарии
-    VK.init({apiId: 7519155, onlyWidgets: true});
-    VK.Widgets.Comments("vk_comments", {limit: 10, attach: "*"});
+    VK.init({
+      apiId: 7519155,
+      onlyWidgets: true
+    });
+    VK.Widgets.Comments("vk_comments", {
+      limit: 10,
+      attach: "*"
+    });
   });
 })(jQuery);
