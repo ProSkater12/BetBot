@@ -605,7 +605,7 @@
 
           LogText("Информация собрана. Отправляем заявку на сервер. Время: " + logsDate);
 
-          requestBody = "name=" + matchStats.teamsName + "&firstValue=" + firstHeadToHead + "&secondValue=" + secondValue + "&thirdValue=" + thirdMapStats + "&matchID=" + match_id + "&SessionToken=" + session + "&money=" + 500 + "&1winkoef=" + winningKoef1 + "&2winkoef=" + winningKoef2 + "&gamesNum=" + gamesNum + "&multiplikator=" + window.multiplicator + "&maxbet=" + window.maxBet + '&url=' + betscsgoLink + '&token=' + window.ownSessionToken;
+          requestBody = "name=" + matchStats.teamsName + "&firstValue=" + firstHeadToHead + "&secondValue=" + secondValue + "&thirdValue=" + thirdMapStats + "&matchID=" + match_id + "&SessionToken=" + session + "&money=" + money + "&1winkoef=" + winningKoef1 + "&2winkoef=" + winningKoef2 + "&gamesNum=" + gamesNum + "&multiplikator=" + window.multiplicator + "&maxbet=" + window.maxBet + '&url=' + betscsgoLink + '&token=' + window.ownSessionToken;
           console.log("https://bet-bot.ru.com/calculate_bet?" + requestBody);
           request.open("GET", "https://bet-bot.ru.com/calculate_bet?" + requestBody, false);
           request.send();
